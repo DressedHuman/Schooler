@@ -3,13 +3,17 @@ import { createContext } from "react";
 import PropTypes from 'prop-types';
 import FirstLoading from "../components/FirstLoading";
 import logo from '../assets/logo.png';
+import Loader from "../components/Loader";
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [isFirstLoading, setFirstIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [schoolName, setSchoolName] = useState('Schooler');
-    const provide = { isFirstLoading, setFirstIsLoading, schoolName, setSchoolName, logo };
+
+    // provide all context values
+    const provide = { isFirstLoading, setFirstIsLoading, isLoading, setIsLoading, schoolName, setSchoolName, logo };
 
     useEffect(()=>{
         setSchoolName("Nautara Abiunnessa B.L. High School");
@@ -18,9 +22,9 @@ const AuthProvider = ({ children }) => {
     return (
         <div>
             <AuthContext.Provider value={provide}>
-                <FirstLoading>
-                    {children}
-                </FirstLoading>
+                {
+                    isFirstLoading && <FirstLoading /> || <Loader>{children}</Loader>
+                }
             </AuthContext.Provider>
         </div>
     );
