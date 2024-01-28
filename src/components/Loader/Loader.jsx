@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import SchoolLoader from "./SchoolLoader";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../../providers/AuthProvider";
 import PropTypes from 'prop-types';
 
 const Loader = ({ children }) => {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { createContext } from "react";
 import PropTypes from 'prop-types';
-import FirstLoading from "../components/FirstLoading";
+import FirstLoading from "../components/Loader/FirstLoading";
 import logo from '../assets/logo.png';
-import Loader from "../components/Loader";
+import Loader from "../components/Loader/Loader";
 
 export const AuthContext = createContext();
 
