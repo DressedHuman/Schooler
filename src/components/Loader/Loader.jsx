@@ -14,7 +14,7 @@ const Loader = ({ children }) => {
     
     return isLoading && (
         <div className="min-h-[100vh] min-w-[100vw] flex justify-center items-center">
-            <SchoolLoader />
+            <SchoolLoader width={135} fontSize={1.25} bounce />
         </div>
     ) || children;
 };

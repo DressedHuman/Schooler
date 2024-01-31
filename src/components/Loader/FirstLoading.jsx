@@ -1,18 +1,31 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import SchoolLoader from './SchoolLoader';
 import CircularTopBottom from '../shared/CircularTopBottom';
 
 const FirstLoading = () => {
     const { setFirstIsLoading } = useContext(AuthContext);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        const loadingId = setTimeout(() => setFirstIsLoading(false), 757);
+        const handleTransitionEnd = () => {
+            setFirstIsLoading(false);
+        };
 
-        return () => clearTimeout(loadingId);
+        const container = document.querySelector('#container');
+
+        const timeoutId = setTimeout(() => {
+            setIsVisible(false);
+            container.removeEventListener('transitionend', handleTransitionEnd);
+        }, 1753);
+        
+        container.addEventListener('transitionend', handleTransitionEnd);
+        // timeoutIds.push(setTimeout(() => setFirstIsLoading(false), 757))
+
+        return () => clearTimeout(timeoutId);
     });
 
-    return <div className='min-h-[100vh] flex flex-col justify-between'>
+    return <div id='container' className={`min-h-[100vh] flex flex-col justify-between transition-opacity duration-[1757ms] ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className='h-[20vh] lg:h-[25vh] overflow-hidden relative'>
             <div className='w-[70vw] lg:w-[57vw] h-[57vw] rounded-[50%] bg-[#28C2A0] shadow-md shadow-[#5557] absolute bottom-12 lg:bottom-7 -left-[20vw] lg:-left-[28.5vw]'></div>
         </div>

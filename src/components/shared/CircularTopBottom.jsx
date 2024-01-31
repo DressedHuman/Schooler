@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 
 const CircularTopBottom = ({ background, isTop, height }) => {
+    const containerStyle = { height: `${height}vh` };
+    const circleStyle = { height: `${height * 2}vh`, backgroundColor: background, top: `${isTop ? 'auto' : 0}`, bottom: `${isTop ? 0 : 'auto'}` };
+
     return (
-        <div className={`h-[${height}vh] relative overflow-hidden`}>
-            <div className={`h-[${height*2}vh] bg-[${background}] rounded-[50%] absolute left-0 right-0 ${isTop ? 'bottom-0' : 'top-0'}`}></div>
+        <div className={`relative overflow-hidden`} style={containerStyle}>
+            <div className={`rounded-[50%] absolute left-0 right-0`} style={circleStyle}></div>
         </div>
     );
 };

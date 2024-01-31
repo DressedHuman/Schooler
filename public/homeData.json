@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "name": "Student",
+      "image": "/student.svg",
+      "route": "/student"
+    },
+    {
+      "id": 2,
+      "name": "Teacher",
+      "image": "/teacher.svg",
+      "route": "/teacher"
+    },
+    {
+      "id": 3,
+      "name": "Parent",
+      "image": "/parent.svg",
+      "route": "/parent"
+    },
+    {
+      "id": 4,
+      "name": "Guest",
+      "image": "/guest.svg",
+      "route": "/guest"
+    }
+  ]
