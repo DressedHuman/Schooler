@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "name": "Attendance",
+        "image": "/dashboard/attendance.png",
+        "route": "/attendance"
+    },
+    {
+        "id": 2,
+        "name": "Homework",
+        "image": "/dashboard/homework.png",
+        "route": "/homework"
+    },
+    {
+        "id": 3,
+        "name": "Result",
+        "image": "/dashboard/result.png",
+        "route": "/result"
+    },
+    {
+        "id": 4,
+        "name": "Routine",
+        "image": "/dashboard/routine.png",
+        "route": "/routine"
+    },
+    {
+        "id": 5,
+        "name": "Solution",
+        "image": "/dashboard/solution.png",
+        "route": "/solution"
+    },
+    {
+        "id": 6,
+        "name": "Notice",
+        "image": "/dashboard/notice.png",
+        "route": "/notice"
+    },
+    {
+        "id": 7,
+        "name": "+Account",
+        "image": "/dashboard/add_account.png",
+        "route": "/add-account"
+    }
+]

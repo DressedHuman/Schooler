@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
-const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, marginBottom, inputPadding, borderFull, borderColor, borderColorOnFocus, customAtts, isRequired }) => {
+
+const SelectField = ({ name, icon, id, nameText, marginTop, marginBottom, selectPadding, borderFull, borderColor, borderColorOnFocus, customAtts, isRequired, children, defaultValue }) => {
     const containerStyle = { marginTop, marginBottom };
-    const inputStyle = { padding: `${inputPadding}px` }
+    const selectStyle = { padding: `${selectPadding}px` }
 
     const fieldMotion = {
         initial: {
@@ -15,10 +16,9 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
             rotate: 0,
         },
         transition: {
-            type: 'spring',
             duration: 0.12,
-            // bounce: 0.4,
-            // ease: 'linear',
+            bounce: 0.4,
+            ease: 'linear',
         }
     }
 
@@ -32,7 +32,9 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
             {/* container for the input field and icon */}
             <div className={`flex w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}>
                 {/* main input field with styles and custom attributes */}
-                <input type={type} name={name} id={id} className="font-open-sans flex-grow focus:outline-none bg-transparent" placeholder={placeholder} style={inputStyle} {...customAtts} required={isRequired} />
+                <select name={name} id={id} className="font-open-sans flex-grow focus:outline-none bg-transparent" style={selectStyle} {...customAtts} defaultValue={defaultValue} required={isRequired} >
+                    {children}
+                </select>
                 {
                     // icon for the input field on the right side
                     icon && <img src={icon} className='w-4 select-none' draggable='false' alt={`${name} - icon`} />
@@ -42,21 +44,21 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
     );
 };
 
-InputField.propTypes = {
+SelectField.propTypes = {
     name: PropTypes.string,
-    type: PropTypes.string,
     id: PropTypes.string,
     icon: PropTypes.string,
     nameText: PropTypes.string,
-    placeholder: PropTypes.string,
     marginTop: PropTypes.string,
     marginBottom: PropTypes.string,
-    inputPadding: PropTypes.number,
+    selectPadding: PropTypes.number,
     borderFull: PropTypes.bool,
     borderColor: PropTypes.string,
     borderColorOnFocus: PropTypes.string,
     customAtts: PropTypes.object,
+    defaultValue: PropTypes.any,
     isRequired: PropTypes.bool,
+    children: PropTypes.node,
 }
 
-export default InputField;
+export default SelectField;

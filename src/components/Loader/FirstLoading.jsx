@@ -31,7 +31,7 @@ const FirstLoading = () => {
         </div>
         <SchoolLoader />
         <div className='relative'>
-            <CircularTopBottom background={'#0C46C4'} isTop={false} height={21} />
+            <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[21vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[42vh]'} isTop={false} />
             <div className='absolute left-10 right-10 top-10 bottom-10 flex flex-col justify-center items-center text-white font-medium'>
                 <p>
                     <span className='font-normal'>Developed by:</span> <a href='https://facebook.com/dressed.human' className='hover:text-[yellow]'>Motiur Rahman Mizan</a>

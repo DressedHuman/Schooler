@@ -1,28 +1,25 @@
 import CircularTopBottom from "./CircularTopBottom";
 import PropTypes from 'prop-types';
-import LogoCircle from "./LogoCircle";
 
-const CircularTopWithLogo = ({ logo, color, height, radius, padding, borderWidth, borderColor, logoUp }) => {
+const CircularTopWithLogo = ({ color, isSticky, children, zIndex }) => {
+    const style = {position: `${isSticky && 'sticky'}`, top: '0', zIndex};
 
     return (
-        <div>
-            <CircularTopBottom background={color} isTop={true} height={height} />
+        <div style={style}>
+            <CircularTopBottom background={color} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[21vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[42vh]'} isTop />
             <div className="flex justify-center">
-                <LogoCircle logo={logo} radius={radius} padding={padding} borderWidth={borderWidth} borderColor={borderColor} logoUp={logoUp} />
+                {children}
             </div>
         </div>
     );
 };
 
 CircularTopWithLogo.propTypes = {
-    logo: PropTypes.string,
     color: PropTypes.string,
     height: PropTypes.number,
-    radius: PropTypes.number,
-    padding: PropTypes.number,
-    borderColor: PropTypes.string,
-    borderWidth: PropTypes.number,
-    logoUp: PropTypes.bool,
+    isSticky: PropTypes.bool,
+    zIndex: PropTypes.number,
+    children: PropTypes.node,
 }
 
 export default CircularTopWithLogo;

@@ -1,12 +1,50 @@
 <!doctype html>
 <html lang="en" class="bg-slate-5 00 font-inter" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Schooler | Let's School From Online</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schooler | Let's School From Online</title>
+  <style>
+    * {
+      cursor: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- outer cursor with a transition duration to make a delay on mousemove -->
+  <div id="cursor-outer"
+    class="customCursor w-[1.75vw] h-[1.75vw] border-2 rounded-[50%] fixed mix-blend-difference -translate-x-[50%] -translate-y-[50%] z-[9999] transition-all duration-200 ease-linear pointer-events-none">
+  </div>
+  <!-- inner cursor acting like the mouse cursor -->
+  <div id="cursor-inner"
+    class="customCursor w-[0.7vw] h-[0.7vw] bg-white rounded-[50%] fixed mix-blend-difference -translate-x-[50%] -translate-y-[50%] z-[9999] pointer-events-none">
+  </div>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    const cursors = document.querySelectorAll('.customCursor');
+
+    window.addEventListener('mousemove', (e) => {
+      cursors.forEach(cursor => {
+        cursor.style.top = `${e.clientY}px`;
+        cursor.style.left = `${e.clientX}px`;
+      })
+    });
+
+    // adding the background color of the outer cursor div when pressing a mouse button
+    window.addEventListener('mousedown', (e) => {
+      cursors[0].style.backgroundColor = "white";
+      cursors[0].style.padding = '1.25vw';
+    });
+
+    // removing the background color of the outer cursor div when releasing a mouse button
+    window.addEventListener('mouseup', (e) => {
+      cursors[0].style.backgroundColor = 'transparent';
+      cursors[0].style.padding = '0vw';
+    })
+  </script>
+</body>
+
 </html>

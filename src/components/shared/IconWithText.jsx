@@ -10,8 +10,8 @@ const IconWithText = ({ icon, iconAltText, iconBackground, iconPadding, iconRadi
 
     return (
         <div className='flex items-center group' style={containerStyle}>
-            <img src={icon} alt={iconAltText} className='w-[100px] lg:w-[125px] h-[100px] lg:h-[125px] rounded-2xl group-hover:rounded-[32px] transition-all duration-700' style={iconStyle} />
-            <p style={textStyle} className='font-open-sans text-base md:text-lg lg:text-xl group-hover:text-lg group-hover:md:text-xl group-hover:lg:text-2xl group-hover:text-[#0C46C4] group-hover:font-medium transition-all duration-700'>{text}</p>
+            <img src={icon} alt={iconAltText} className='w-[100px] lg:w-[125px] h-[100px] lg:h-[125px] rounded-2xl border-4 border-transparent group-hover:border-[#BF5757] group-hover:rounded-[32px] transition-all duration-700' style={iconStyle} draggable='false' />
+            <p style={textStyle} className='font-open-sans text-base md:text-lg lg:text-xl group-hover:text-lg group-hover:md:text-xl group-hover:lg:text-[22px] group-hover:text-[#BF5757] group-hover:font-medium transition-all duration-700' draggable='false'>{text}</p>
         </div>
     );
 };
