@@ -15,7 +15,7 @@ const AddAccount = () => {
             </CircularTopWithLogo>
 
             {/* add new account form */}
-            <AddAccountForm studentPhoto={uploadingPhotoRef.current.files[0]} />
+            <AddAccountForm studentPhotoRef={uploadingPhotoRef} />
         </div>
     );
 };

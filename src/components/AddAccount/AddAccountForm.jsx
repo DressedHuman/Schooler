@@ -5,7 +5,7 @@ import { useState } from "react";
 import PropTypes from 'prop-types';
 
 // form for adding student account
-const AddAccountForm = ({ studentPhoto }) => {
+const AddAccountForm = ({ studentPhotoRef }) => {
     const [allValid, setAllValid] = useState(false); // boolean if all fields are valid
     // const [phoneNumber, setPhoneNumber] = useState('');
     const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
@@ -40,7 +40,7 @@ const AddAccountForm = ({ studentPhoto }) => {
                 session: studentForm.get('session'),
                 email: studentForm.get('email'),
                 phone: studentForm.get('phone'),
-                photo: studentPhoto,
+                photo: studentPhotoRef.current.files[0] || null,
             };
             console.log(studentInfo);
         }
@@ -87,7 +87,7 @@ const AddAccountForm = ({ studentPhoto }) => {
 };
 
 AddAccountForm.propTypes = {
-    studentPhoto: PropTypes.string,
+    studentPhotoRef: PropTypes.object,
 }
 
 export default AddAccountForm;
