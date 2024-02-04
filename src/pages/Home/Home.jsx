@@ -26,7 +26,7 @@ const Home = () => {
             <div className="flex justify-center flex-wrap gap-5 md:gap-7 mt-5 md:mt-7 lg:mt-16">
                 {
                     homeData.map(({ id, name, image, userType }) => <Link key={id} to={'/dashboard'} state={userType}>
-                        <IconWithText icon={image} iconPadding={20} text={name} gap={10} isCol />
+                        <IconWithText icon={image} iconPadding={20} text={name} gap={10} isCol pointerEvent />
                     </Link>)
                 }
             </div>

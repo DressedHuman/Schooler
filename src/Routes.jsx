@@ -5,6 +5,7 @@ import Login from "./pages/Shared/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import axios from "axios";
 import AddAccount from "./pages/Dashboard/AddAccount/AddAccount";
+import Homework from "./pages/Dashboard/Homework/Homework";
 
 const routes = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
             {
                 path: '/add-account',
                 element: <AddAccount />
+            },
+            {
+                path: '/homework',
+                element: <Homework />
             }
         ]
     }

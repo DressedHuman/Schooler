@@ -18,7 +18,7 @@ const Dashboard = () => {
             <div className="flex justify-center flex-wrap gap-9 md:gap-12 mt-9 md:mt-12 lg:mt-16">
                 {
                     dashboardData.data.map(item => <Link key={item.id} to={item.route}>
-                        <IconWithText icon={item.image} fontWeight={400} gap={7} iconAltText={item.name} text={item.name} iconBackground={'transparent'} iconPadding={5} isCol />
+                        <IconWithText icon={item.image} fontWeight={400} gap={7} iconAltText={item.name} text={item.name} iconBackground={'transparent'} iconPadding={5} isCol pointerEvent />
                     </Link>)
                 }
             </div>
