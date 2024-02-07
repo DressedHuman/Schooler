@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const IconWithText = ({ icon, iconAltText, iconWidth, iconHeight, iconBackground, iconPadding, iconRadius, text, gap, textColor, fontWeight, isCol, customContainerStyle, pointerEvent }) => {
+const IconWithText = ({ icon, iconAltText, iconWidth, iconHeight, iconBackground, iconPadding, iconRadius, text, fontFamily, gap, textColor, fontWeight, isCol, customContainerStyle, pointerEvent }) => {
     // container style
     const containerStyle = { ...customContainerStyle, gap, flexDirection: `${isCol && 'column'}` }
     // style for the icon
@@ -20,7 +20,7 @@ const IconWithText = ({ icon, iconAltText, iconWidth, iconHeight, iconBackground
             {/* image */}
             <img src={icon} alt={iconAltText} className={`${iconWidth || 'w-[100px] lg:w-[125px]'} ${iconHeight || 'h-[100px] lg:h-[125px]'} rounded-2xl border-4 border-transparent ${pointerEvent && 'group-hover:border-[#BF5757] group-hover:rounded-[32px]'} transition-all duration-700`} style={iconStyle} draggable='false' />
             {/* text */}
-            <p style={textStyle} className={`font-open-sans text-base md:text-lg lg:text-xl ${pointerEvent && 'group-hover:text-lg group-hover:md:text-xl group-hover:lg:text-[22px] group-hover:text-[#BF5757] group-hover:font-medium'} transition-all duration-700`} draggable='false'>{text}</p>
+            <p style={textStyle} className={`font-open-sans text-base md:text-lg lg:text-xl ${fontFamily || 'font-open-sans'} ${pointerEvent && 'group-hover:text-lg group-hover:md:text-xl group-hover:lg:text-[22px] group-hover:text-[#BF5757] group-hover:font-medium'} transition-all duration-700`} draggable='false'>{text}</p>
         </div>
     );
 };
@@ -35,6 +35,7 @@ IconWithText.propTypes = {
     iconPadding: PropTypes.number,
     iconRadius: PropTypes.number,
     text: PropTypes.string,
+    fontFamily: PropTypes.string,
     gap: PropTypes.number,
     textColor: PropTypes.string,
     fontWeight: PropTypes.number,

@@ -8,7 +8,7 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
     const fieldMotion = {
         initial: {
             y: 75,
-            rotate: -12,
+            rotate: 7,
         },
         whileInView: {
             y: 0,
@@ -17,7 +17,7 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
         transition: {
             type: 'spring',
             duration: 0.12,
-            // bounce: 0.4,
+            bounce: 0.4,
             // ease: 'linear',
         }
     }

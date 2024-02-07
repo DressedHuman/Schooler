@@ -1,0 +1,41 @@
+{
+    "instructions": "Welcome to the 'Add Homework' page! Please follow these guidelines to effectively assign and manage homework:",
+    "fields": [
+        {
+            "id": 1,
+            "label": "Title",
+            "description": "Enter a descriptive title for the homework assignment."
+        },
+        {
+            "id": 2,
+            "label": "Subject",
+            "description": "Choose the relevant subject from the dropdown menu."
+        },
+        {
+            "id": 3,
+            "label": "Class/Grade",
+            "description": "Specify the class or grade for which the homework is assigned."
+        },
+        {
+            "id": 4,
+            "label": "Due Date",
+            "description": "Set the deadline for students to complete the homework."
+        },
+        {
+            "id": 5,
+            "label": "Instructions",
+            "description": "Provide clear and detailed instructions for the assignment."
+        },
+        {
+            "id": 6,
+            "label": "Attachments",
+            "description": "If applicable, attach any files or resources necessary for the assignment."
+        },
+        {
+            "id": 7,
+            "label": "Additional Notes",
+            "description": "Include any extra information or special instructions."
+        }
+    ],
+    "final_note": "Remember to review and double-check the details before submitting. This ensures a smooth and organized homework assignment process."
+}

@@ -31,7 +31,8 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/homework',
-                element: <Homework />
+                element: <Homework />,
+                loader: () => axios.get('/dashboard/Homework/homework.json'),
             }
         ]
     }
