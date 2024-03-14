@@ -15,6 +15,7 @@ const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />,
+                loader: () => axios.get(import.meta.env.VITE_URL_HOMEPAGE_DATA || 'http://localhost:8000/api/homepage_data'),
             },
             {
                 path: '/login',
@@ -22,7 +23,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/dashboard',
-                loader: () => axios.get('/dashboard/data.json'),
+                loader: () => axios.get(import.meta.env.VITE_URL_DASHBOARD_DATA || 'http://localhost:8000/api/dashboard_data'),
                 element: <Dashboard />
             },
             {
@@ -32,7 +33,7 @@ const routes = createBrowserRouter([
             {
                 path: '/homework',
                 element: <Homework />,
-                loader: () => axios.get('/dashboard/Homework/homework.json'),
+                loader: () => axios.get(import.meta.env.VITE_URL_HOMEWORK_DATA || '/dashboard/Homework/homework.json'),
             }
         ]
     }

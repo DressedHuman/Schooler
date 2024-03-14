@@ -2,11 +2,84 @@ import { useLoaderData } from "react-router-dom";
 import RectHeader from "../../../components/shared/RectHeader/RectHeader";
 import homeworkWhiteLogo from '/dashboard/whiteVersions/HomeworkWhite.png';
 import Points from "../../../components/shared/Points/Points";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import InputField from "../../../components/FormComponents/inputField";
+import SelectField from "../../../components/FormComponents/DropDownMenu/Select";
+import Button from "../../../components/FormComponents/Button";
+
+// importing svg icons
+import warning from '/warning.svg';
+import info from '/information.svg';
+import axios from "axios";
+import RadioGroup from "../../../components/FormComponents/RadioSelector/RadioGroup";
+// import { AuthContext } from "../../../providers/AuthProvider";
 
 const Homework = () => {
     const message = useLoaderData().data;
     const [openModal, setOpenModal] = useState(false);
+    /* this method of getting classes, groups and subjects data on authContext is deprecated
+        instead encouraged to isolate these data on database as CRUD operations may need to run to keep these vital data up to date
+
+    const { classes, groups, subjects } = useContext(AuthContext); //collecting classes, groups and subjects from the authContext
+    */
+    const [classes, setClasses] = useState([]);
+    const [groups, setGroups] = useState({});
+    const [subjects, setSubjects] = useState([]);
+
+
+    // states for showing information
+    const [hasGroups, setHasGroups] = useState(false); //boolean whether a class has groups or not
+    const [showingGroups, setShowingGroups] = useState([]); //set showing groups, primarily for class six
+    const [showingSubjects, setShowingSubjects] = useState([]);
+
+    // --------------------------------------------------------------------------
+
+    // handle groups or subjects for classes when class is changed
+    const handleClassChange = e => {
+        const currentClass = e.target.value;
+        const _hasGroups = groups[currentClass].hasGroups;
+        const _showingGroups = groups[currentClass].groups;
+        setHasGroups(_hasGroups);
+        setShowingGroups(_showingGroups);
+    }
+
+
+    // handle subjects for groups when group is changed
+    const handleGroupChange = e => {
+        const group = e.target.value;
+        const _showingSubjects = subjects.filter(subject => subject.groups.includes(group));
+        setShowingSubjects(_showingSubjects);
+    }
+
+
+    // handler function for form submission
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+    }
+
+    useEffect(() => {
+        // getting classes
+        axios.get('http://localhost:8000/api/classes')
+            .then(res => setClasses(res.data))
+            .catch(console.error);
+
+        // getting groups
+        /* axios.get('http://localhost:8000/api/groups')
+            .then(res => setGroups(res.data))
+            .catch(console.error); */
+
+        // getting subjects
+        axios.get('http://localhost:8000/api/subjects')
+            .then(res => {
+                setSubjects(res.data);
+                const _classSubjects = res.data.filter(sub => sub.classes.includes(6));
+                setShowingSubjects(_classSubjects);
+            })
+            .catch(console.error);
+
+        // setting showingSubjects for classes with no groups/ None group
+        hasGroups || setShowingSubjects(subjects.filter(subject => subject.groups.includes('None')));
+    }, [hasGroups])
 
     return (
         <div>
@@ -14,11 +87,10 @@ const Homework = () => {
             <RectHeader backgroundColor={'bg-[#0C46C4]'} icon={homeworkWhiteLogo} iconWidth={'w-[50px] md:w-[75px]'} iconHeight={'h-[50px] md:h-[75px]'} title={'HOMEWORK'} textColor={'white'} flexPosition={'items-center'} containerPadding={'pl-16 md:pl-[88px] lg:pl-28'} />
 
             {/* instruction modal to add homework perfectly */}
-            <button onClick={() => setOpenModal(true)} className="text-lg font-medium font-open-sans">Show Instructions</button>
             {/* modal source: https://navigateui.com/components/modal */}
             <div className="w-[75vw] md:w-72 mx-auto flex items-center justify-center font-open-sans">
-                    {/* clicking outside the modal message will also close the modal */}
-                    {/* div with full window overlay */}
+                {/* clicking outside the modal message will also close the modal */}
+                {/* div with full window overlay */}
                 <div onClick={() => setOpenModal(false)} className={`fixed flex justify-center items-center z-[100] ${openModal ? 'visible opacity-1' : 'invisible opacity-0'} inset-0 w-full h-full backdrop-blur-sm bg-[black]/75 duration-100`}>
                     {/* stopped propagation for event bubble for the main modal content */}
                     {/* main modal here */}
@@ -29,15 +101,124 @@ const Homework = () => {
 
                             {/* modal message here */}
                             <div className="max-h-[75vh] overflow-auto space-y-3 md:space-y-4 lg:space-y-5">
-                                <p className="text-[15px] lg:text-base font-medium first-letter:text-xl first-letter:text-[#0C46C4]">{message.instructions}</p>
                                 <Points points={message.fields} />
-                                <p className="text-[15px] lg:text-base font-medium">{message.final_note}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {/* instruction modal ended */}
+
+
+            {/* form with instruction button */}
+            <div className="text-center">
+                <p className="text-[15px] lg:text-base font-medium first-letter:text-xl first-letter:text-[#0C46C4] w-2/3 mx-auto">{message.instructions}</p>
+                {/* button for opening the instruction modal */}
+                <button onClick={() => setOpenModal(true)} className="text-lg font-medium font-open-sans text-[#0C46C4] flex items-center justify-center gap-1 mx-auto">Show Instructions <img src={info} className="w-[18px]" /></button>
+
+                {/* form to add homework */}
+                <form
+                    className="w-3/4 md:w-2/3 lg:w-1/3 mx-auto z-0"
+                    onClick={handleFormSubmit}
+                >
+                    {/* choose the class for the homework */}
+                    {/* <SelectField
+                        id={'homework-class'}
+                        name={'homework-class'}
+                        nameText={'Class'}
+                        placeholder={`ex: 7`}
+                        selectPadding={7}
+                        borderFull
+                        borderColor={'border-[#0C46C4A7]'}
+                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        defaultValue={6}
+                        isRequired
+                        customAtts={{ onChange: handleClassChange }}
+                    >
+                        {
+                            classes.map(cls => <option
+                                key={cls}
+                                value={cls}
+                            >
+                                {cls}
+                            </option>)
+                        }
+                    </SelectField> */}
+                    <RadioGroup idProperty={'name'} nameProperty={'name'} nameTextProperty={'name'} valueProperty={'value'} radioOptions={classes} />
+
+                    {
+                        hasGroups && <SelectField
+                            id={'homework-groups'}
+                            name={'homework-groups'}
+                            nameText={'Groups'}
+                            placeholder={`ex: 7`}
+                            selectPadding={7}
+                            borderFull
+                            borderColor={'border-[#0C46C4A7]'}
+                            borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                            defaultValue={6}
+                            isRequired
+                            customAtts={{ onChange: handleGroupChange }}
+                        >
+                            {
+                                showingGroups.map((group, index) => <option
+                                    key={index}
+                                    value={group}
+                                >
+                                    {group}
+                                </option>)
+                            }
+                        </SelectField>
+                    }
+
+                    {/* choose subject of the homework */}
+                    <SelectField
+                        id={'homework-subject'}
+                        name={'homework-subject'}
+                        nameText={'Subject'}
+                        placeholder={`ex: Physics`}
+                        selectPadding={7}
+                        borderFull
+                        borderColor={'border-[#0C46C4A7]'}
+                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        defaultValue={'Bangla-1'}
+                        isRequired
+                    >
+                        {
+                            showingSubjects.map(subject => {
+                                if (subject.parts > 1) {
+                                    let subjectOptions = [];
+                                    for (let i = 0; i < subject.parts; i++) {
+                                        subjectOptions.push(
+                                            <option
+                                                key={`${subject.name}-${i + 1}`}
+                                                value={`${subject.name}-${i + 1}`}
+                                            >
+                                                {`${subject.name} - Paper ${i + 1}`}
+                                            </option>
+                                        );
+                                    }
+                                    return subjectOptions;
+                                } else {
+                                    return <option key={`${subject.name}`} value={`${subject.name}`}>{`${subject.name}`}</option>;
+                                }
+                            })
+                        }
+                    </SelectField>
+
+
+
+                    {/* type the title of the homework */}
+                    <InputField type={'text'} nameText={'Title'} id={'homework-title'} name={'homework-title'} placeholder={'ex: Physics - Chapter 12'} inputPadding={7} borderFull borderColor={'border-[#0C46C4A7]'} borderColorOnFocus={'focus-within:border-[#0C46C4]'} isRequired />
+
+                    {/* caution message here */}
+                    <p className="text-xs lg:text-sm mt-9 flex items-center justify-center"><img src={warning} className="w-[18px] lg:w-[20px]" />{message.final_note}</p>
+
+                    {/* submit button here */}
+                    <Button type={'submit'} name={'addStudent'} nameText={'Add Homework'} customStyle={'mb-12 mt-3'} paddingY={'py-2'} initialTranslateY={100} />
+                </form>
+                {/* ended form to add homework */}
+            </div>
         </div>
     );
 };

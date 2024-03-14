@@ -7,7 +7,7 @@ const Loader = ({ children }) => {
     const { isLoading, setIsLoading } = useContext(AuthContext);
 
     useEffect(() => {
-        const unSubscribe = setTimeout(() => setIsLoading(false), 1775);
+        const unSubscribe = setTimeout(() => setIsLoading(false), 0); //1775);
 
         return () => clearTimeout(unSubscribe);
     });
