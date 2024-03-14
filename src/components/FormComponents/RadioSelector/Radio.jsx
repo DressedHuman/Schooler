@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 
-const Radio = ({ id, name, labelText, value, bgColor, bgColorOnChecked, textColor, textColorOnChecked, checkedValue, handlerOnChange }) => {
+const Radio = ({ id, labelText, value, bgColor, bgColorOnChecked, textColor, textColorOnChecked, checkedValue, handlerOnChange }) => {
     return (
         <button
             id={id}
-            name={name}
-            className={`w-1/4 md:w-1/6 h-12 flex justify-center items-center rounded-xl ${bgColor || 'bg-[gray]'} ${textColor || 'text-white'} ${checkedValue === value ? (bgColorOnChecked || 'bg-[green]') : 'bg-[gray]'} checked:${textColorOnChecked || 'text-white'} z-0 cursor-pointer`}
+            className={`flex-1 h-12 flex justify-center items-center rounded-xl ${bgColor || 'bg-[gray]'} ${textColor || 'text-white'} ${checkedValue === value ? (bgColorOnChecked || 'bg-[green]') : 'bg-[gray]'} ${checkedValue===value && (textColorOnChecked || 'text-white')} z-0 cursor-pointer`}
             onClick={() => handlerOnChange(value)}
         >
             {labelText}
@@ -15,7 +14,6 @@ const Radio = ({ id, name, labelText, value, bgColor, bgColorOnChecked, textColo
 
 Radio.propTypes = {
     id: PropTypes.any,
-    name: PropTypes.string,
     labelText: PropTypes.string,
     value: PropTypes.any,
     bgColor: PropTypes.string,

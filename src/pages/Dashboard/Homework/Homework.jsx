@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import RectHeader from "../../../components/shared/RectHeader/RectHeader";
 import homeworkWhiteLogo from '/dashboard/whiteVersions/HomeworkWhite.png';
 import Points from "../../../components/shared/Points/Points";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InputField from "../../../components/FormComponents/inputField";
 import SelectField from "../../../components/FormComponents/DropDownMenu/Select";
 import Button from "../../../components/FormComponents/Button";
@@ -12,43 +12,40 @@ import warning from '/warning.svg';
 import info from '/information.svg';
 import axios from "axios";
 import RadioGroup from "../../../components/FormComponents/RadioSelector/RadioGroup";
-// import { AuthContext } from "../../../providers/AuthProvider";
 
 const Homework = () => {
     const message = useLoaderData().data;
     const [openModal, setOpenModal] = useState(false);
-    /* this method of getting classes, groups and subjects data on authContext is deprecated
-        instead encouraged to isolate these data on database as CRUD operations may need to run to keep these vital data up to date
-
-    const { classes, groups, subjects } = useContext(AuthContext); //collecting classes, groups and subjects from the authContext
-    */
     const [classes, setClasses] = useState([]);
-    const [groups, setGroups] = useState({});
+    // const [groups, setGroups] = useState({});
     const [subjects, setSubjects] = useState([]);
 
 
-    // states for showing information
+    // current information
+    const [currentClass, setCurrentClass] = useState(null);
     const [hasGroups, setHasGroups] = useState(false); //boolean whether a class has groups or not
-    const [showingGroups, setShowingGroups] = useState([]); //set showing groups, primarily for class six
-    const [showingSubjects, setShowingSubjects] = useState([]);
+    const [currentGroups, setCurrentGroups] = useState([]); //set current groups, primarily for class six
+    const [currentGroup, setCurrentGroup] = useState('');
+    const [currentSubjects, setCurrentSubjects] = useState([]);
 
     // --------------------------------------------------------------------------
 
     // handle groups or subjects for classes when class is changed
-    const handleClassChange = e => {
-        const currentClass = e.target.value;
-        const _hasGroups = groups[currentClass].hasGroups;
-        const _showingGroups = groups[currentClass].groups;
+    const handleClassChange = _class => {
+        // const currentClass = _class.name;
+        setCurrentClass(_class);
+        const _hasGroups = _class.groups.hasGroups;
+        const _showingGroups = _class.groups.groups;
         setHasGroups(_hasGroups);
-        setShowingGroups(_showingGroups);
+        setCurrentGroups(_showingGroups);
     }
 
 
     // handle subjects for groups when group is changed
-    const handleGroupChange = e => {
-        const group = e.target.value;
-        const _showingSubjects = subjects.filter(subject => subject.groups.includes(group));
-        setShowingSubjects(_showingSubjects);
+    const handleGroupChange = group => {
+        setCurrentGroup(group);
+        const _showingSubjects = subjects.filter(subject => subject.groups.includes(group.value));
+        setCurrentSubjects(_showingSubjects);
     }
 
 
@@ -72,14 +69,12 @@ const Homework = () => {
         axios.get('http://localhost:8000/api/subjects')
             .then(res => {
                 setSubjects(res.data);
-                const _classSubjects = res.data.filter(sub => sub.classes.includes(6));
-                setShowingSubjects(_classSubjects);
             })
             .catch(console.error);
 
         // setting showingSubjects for classes with no groups/ None group
-        hasGroups || setShowingSubjects(subjects.filter(subject => subject.groups.includes('None')));
-    }, [hasGroups])
+        hasGroups || setCurrentSubjects(subjects.filter(subject => subject.groups.includes('None')));
+    }, [])
 
     return (
         <div>
@@ -118,36 +113,23 @@ const Homework = () => {
 
                 {/* form to add homework */}
                 <form
-                    className="w-3/4 md:w-2/3 lg:w-1/3 mx-auto z-0"
+                    className="w-3/4 md:w-2/3 lg:w-1/3 mx-auto my-2  z-0 space-y-5"
                     onClick={handleFormSubmit}
                 >
-                    {/* choose the class for the homework */}
-                    {/* <SelectField
-                        id={'homework-class'}
-                        name={'homework-class'}
-                        nameText={'Class'}
-                        placeholder={`ex: 7`}
-                        selectPadding={7}
-                        borderFull
-                        borderColor={'border-[#0C46C4A7]'}
-                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
-                        defaultValue={6}
+                    {/* all the classes here */}
+                    <RadioGroup
+                        idProperty={'name'}
+                        labelTextProperty={'name'}
+                        valueProperty={'value'}
+                        radioOptions={classes}
+                        labelText={'Class'}
+                        handleRadioChange={handleClassChange}
+                        checkedRadio={currentClass}
                         isRequired
-                        customAtts={{ onChange: handleClassChange }}
-                    >
-                        {
-                            classes.map(cls => <option
-                                key={cls}
-                                value={cls}
-                            >
-                                {cls}
-                            </option>)
-                        }
-                    </SelectField> */}
-                    <RadioGroup idProperty={'name'} nameProperty={'name'} nameTextProperty={'name'} valueProperty={'value'} radioOptions={classes} />
+                    />
 
                     {
-                        hasGroups && <SelectField
+                        /* hasGroups && <SelectField
                             id={'homework-groups'}
                             name={'homework-groups'}
                             nameText={'Groups'}
@@ -161,14 +143,26 @@ const Homework = () => {
                             customAtts={{ onChange: handleGroupChange }}
                         >
                             {
-                                showingGroups.map((group, index) => <option
+                                currentGroups.map((group, index) => <option
                                     key={index}
                                     value={group}
                                 >
                                     {group}
                                 </option>)
                             }
-                        </SelectField>
+                        </SelectField> */
+
+                        // showing radio groups instead of select menu
+                        hasGroups && <RadioGroup
+                            idProperty={'id'}
+                            labelTextProperty={'name'}
+                            valueProperty={'value'}
+                            radioOptions={currentGroups}
+                            labelText={'Group'}
+                            handleRadioChange={handleGroupChange}
+                            checkedRadio={currentGroup}
+                            isRequired
+                        />
                     }
 
                     {/* choose subject of the homework */}
@@ -185,7 +179,7 @@ const Homework = () => {
                         isRequired
                     >
                         {
-                            showingSubjects.map(subject => {
+                            currentSubjects.map(subject => {
                                 if (subject.parts > 1) {
                                     let subjectOptions = [];
                                     for (let i = 0; i < subject.parts; i++) {

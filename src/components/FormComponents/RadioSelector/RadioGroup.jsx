@@ -1,39 +1,48 @@
 import PropTypes from 'prop-types';
 import Radio from './Radio';
-import { useState } from 'react';
 
-const RadioGroup = ({ radioOptions, idProperty, nameProperty, nameTextProperty, valueProperty, }) => {
-    const [checkedRadio, setCheckedRadio] = useState(null);
-
-    // handler for checked radio option on change
-    const handleRadioChange = value => {
-        setCheckedRadio(value);
-        // console.log(checkedRadio);
-    }
-
+const RadioGroup = ({
+    labelText,
+    radioOptions,
+    idProperty,
+    labelTextProperty,
+    handleRadioChange,
+    checkedRadio,
+    isRequired,
+}) => {
     return (
-        <div className='flex justify-center items-center gap-2 flex-wrap z-0'>
-            {
-                radioOptions.map((option, idx) => <Radio
-                    key={idx}
-                    id={idProperty ? option[idProperty] : idx}
-                    name={nameProperty ? option[nameProperty] : option}
-                    labelText={nameTextProperty ? option[nameTextProperty] : option}
-                    value={valueProperty ? option[valueProperty] : option}
-                    checkedValue={checkedRadio}
-                    handlerOnChange={handleRadioChange}
-                />)
-            }
+        <div className="flex flex-col items-start gap-3 group transition-all duration-500">
+            <h2
+                className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500"
+            >
+                {labelText}{isRequired && <span className='text-[red]'>*</span>}
+            </h2>
+            <div className='w-full flex justify-center items-start gap-2 flex-nowrap z-0'>
+                {
+                    radioOptions.map((option, idx) => <Radio
+                        key={idx}
+                        id={idProperty ? option[idProperty] : idx}
+                        labelText={labelTextProperty ? option[labelTextProperty] : option}
+                        // value={valueProperty ? option[valueProperty] : option}
+                        value={option}
+                        checkedValue={checkedRadio}
+                        handlerOnChange={handleRadioChange}
+                    />)
+                }
+            </div>
         </div>
     );
 };
 
 RadioGroup.propTypes = {
+    labelText: PropTypes.string,
     radioOptions: PropTypes.array,
     idProperty: PropTypes.string,
-    nameProperty: PropTypes.string,
-    nameTextProperty: PropTypes.string,
-    valueProperty: PropTypes.string,
+    labelTextProperty: PropTypes.string,
+    // valueProperty: PropTypes.string,
+    handleRadioChange: PropTypes.func,
+    checkedRadio: PropTypes.object,
+    isRequired: PropTypes.bool,
 }
 
 export default RadioGroup;
