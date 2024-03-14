@@ -3,42 +3,117 @@
 classes = [
     {
         "name": "Six",
-        "value": '6',
+        "value": "6",
         "groups": {
             "hasGroups": False,
-            "groups": ["none", "all"],
+            "groups": [
+                {
+                    "name": "None",
+                    "id": "none",
+                    "value": "none",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+            ],
         },
     },
     {
         "name": "Seven",
-        "value": '7',
+        "value": "7",
         "groups": {
             "hasGroups": False,
-            "groups": ["none", "all"],
+            "groups": [
+                {
+                    "name": "None",
+                    "id": "none",
+                    "value": "none",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+            ],
         },
     },
     {
         "name": "Eight",
-        "value": '8',
+        "value": "8",
         "groups": {
             "hasGroups": False,
-            "groups": ["none", "all"],
+            "groups": [
+                {
+                    "name": "None",
+                    "id": "none",
+                    "value": "none",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+            ],
         },
     },
     {
         "name": "Nine",
-        "value": '9',
+        "value": "9",
         "groups": {
             "hasGroups": True,
-            "groups": ["science", "humanities", "business-studies", "all"],
+            "groups": [
+                {
+                    "name": "Science",
+                    "id": "science",
+                    "value": "science",
+                },
+                {
+                    "name": "Humanities",
+                    "id": "humanities",
+                    "value": "humanities",
+                },
+                {
+                    "name": "Business Studies",
+                    "id": "business-studies",
+                    "value": "business-studies",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+            ],
         },
     },
     {
         "name": "Ten",
-        "value": '10',
+        "value": "10",
         "groups": {
             "hasGroups": True,
-            "groups": ["science", "humanities", "business-studies", "all"],
+            "groups": [
+                {
+                    "name": "Science",
+                    "id": "science",
+                    "value": "science",
+                },
+                {
+                    "name": "Humanities",
+                    "id": "humanities",
+                    "value": "humanities",
+                },
+                {
+                    "name": "Business Studies",
+                    "id": "business-studies",
+                    "value": "business-studies",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+            ],
         },
     },
     {
@@ -46,7 +121,33 @@ classes = [
         "value": "all",
         "groups": {
             "hasGroups": False,
-            "groups": ["science", "humanities", "business-studies", "all", "none"],
+            "groups": [
+                {
+                    "name": "Science",
+                    "id": "science",
+                    "value": "science",
+                },
+                {
+                    "name": "Humanities",
+                    "id": "humanities",
+                    "value": "humanities",
+                },
+                {
+                    "name": "Business Studies",
+                    "id": "business-studies",
+                    "value": "business-studies",
+                },
+                {
+                    "name": "All",
+                    "id": "all",
+                    "value": "all",
+                },
+                {
+                    "name": "None",
+                    "id": "none",
+                    "value": "none",
+                },
+            ],
         },
     },
 ]
@@ -62,71 +163,162 @@ _subjects = [
     {
         "name": "Bangla",
         "parts": 2,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     {
         "name": "English",
         "parts": 2,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     {
         "name": "General Mathematics",
         "parts": 1,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     {
         "name": "Islam and Moral Studies",
         "parts": 1,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     {
         "name": "Hinduism and Moral Studies",
         "parts": 1,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     {
         "name": "ICT - Information and Communication Technology",
         "parts": 1,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     # ended common subjects regardless of classes and groups
     # common subjects for some classes and groups
     {
         "name": "General Science",
         "parts": 1,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["humanities", "business-studies", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "humanities",
+            "business-studies",
+            "none",
+        ],
     },
     # starting subjects for science group
     {
         "name": "Physics",
         "parts": 1,
         "classes": ["9", "10"],
-        "groups": ["science"],
+        "groups": [
+            "science",
+        ],
     },
     {
         "name": "Higher Mathematics",
         "parts": 1,
         "classes": ["9", "10"],
-        "groups": ["science"],
+        "groups": [
+            "science",
+        ],
     },
     {
         "name": "Chemistry",
         "parts": 1,
         "classes": ["9", "10"],
-        "groups": ["science"],
+        "groups": [
+            "science",
+        ],
     },
     {
         "name": "Biology",
         "parts": 1,
         "classes": ["9", "10"],
-        "groups": ["science"],
+        "groups": [
+            "science",
+        ],
     },
     # ended subjects for science group
     # starting subjects for humanities group
@@ -143,7 +335,7 @@ _subjects = [
         "groups": ["humanities"],
     },
     {
-        "name": "Ceivics",
+        "name": "Civics",
         "parts": 1,
         "classes": ["9", "10"],
         "groups": ["humanities"],
@@ -178,8 +370,21 @@ _subjects = [
     {
         "name": "No Subject",
         "parts": 0,
-        "classes": ["6", "7", "8", "9", "10", "all"],
-        "groups": ["science", "humanities", "business-studies", "all", "none"],
+        "classes": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "all",
+        ],
+        "groups": [
+            "science",
+            "humanities",
+            "business-studies",
+            "all",
+            "none",
+        ],
     },
 ]
 
