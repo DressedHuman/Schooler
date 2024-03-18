@@ -12,6 +12,8 @@ import warning from '/warning.svg';
 import info from '/information.svg';
 import axios from "axios";
 import RadioGroup from "../../../components/FormComponents/RadioSelector/RadioGroup";
+import TextAreaField from "../../../components/FormComponents/TextAreaField";
+import Option from "../../../components/FormComponents/DropDownMenu/Option";
 
 const Homework = () => {
     const message = useLoaderData().data;
@@ -25,8 +27,16 @@ const Homework = () => {
     const [currentClass, setCurrentClass] = useState(null);
     const [hasGroups, setHasGroups] = useState(false); //boolean whether a class has groups or not
     const [currentGroups, setCurrentGroups] = useState([]); //set current groups, primarily for class six
-    const [currentGroup, setCurrentGroup] = useState('');
+    const [currentGroup, setCurrentGroup] = useState(null);
     const [currentSubjects, setCurrentSubjects] = useState([]);
+    const [currentSubject, setCurrentSubject] = useState('');
+    const [currentSubjectShowingName, setCurrentSubjectShowingName] = useState('');
+    const [currentSubjectPart, setCurrentSubjectPart] = useState();
+
+    // current error messages
+    const [classError, setClassError] = useState('');
+    const [groupError, setGroupError] = useState('');
+    const [subjectError, setSubjectError] = useState('');
 
     // --------------------------------------------------------------------------
 
@@ -35,45 +45,89 @@ const Homework = () => {
         // const currentClass = _class.name;
         setCurrentClass(_class);
         const _hasGroups = _class.groups.hasGroups;
-        const _showingGroups = _class.groups.groups;
+        const _currentGroups = _class.groups.groups;
         setHasGroups(_hasGroups);
-        setCurrentGroups(_showingGroups);
+        setCurrentGroups(_currentGroups);
+
+        // setting subjects for none group only
+        setCurrentSubjects(subjects.filter(sub => sub.groups.includes('none')));
     }
 
 
     // handle subjects for groups when group is changed
     const handleGroupChange = group => {
         setCurrentGroup(group);
-        const _showingSubjects = subjects.filter(subject => subject.groups.includes(group.value));
-        setCurrentSubjects(_showingSubjects);
+        const _currentSubjects = subjects.filter(subject => subject.groups.includes(group.value));
+        setCurrentSubjects(_currentSubjects);
+
+        // reset the currentSubject when it doesn't belong to currentSubjects
+        if (!_currentSubjects.includes(currentSubject)) {
+            setCurrentSubject(null);
+            setCurrentSubjectShowingName('');
+        }
+    }
+
+
+    // handle subject change
+    const handleSubjectChange = value => {
+        const [subValue, part] = value.split('-');
+        const sub = currentSubjects.find(subj => subj.name === subValue);
+        setCurrentSubject(sub);
+        setCurrentSubjectPart(part || 1);
+        setCurrentSubjectShowingName(part ? `${sub.name} - Paper ${part}` : sub.name);
     }
 
 
     // handler function for form submission
     const handleFormSubmit = (e) => {
         e.preventDefault();
+
+        // accessing form data
+        const title = e.target.homeworkTitle.value;
+
+        // validating form fields
+        if (!currentClass) {
+            return setClassError(`You must select a class`);
+        } else {
+            setClassError('');
+        }
+
+        if (hasGroups && !currentGroup) {
+            return setGroupError('You must select a group!');
+        } else {
+            setGroupError('');
+        }
+
+        if (!currentSubject) {
+            return setSubjectError('You must select a subject!');
+        } else {
+            setSubjectError('');
+        }
+
+        const formData = {
+            selectedClass: (({ name, value }) => ({ name, value }))(currentClass),
+            selectedGroup: currentGroup,
+            selectedSubject: (({ name }) => ({ name }))(currentSubject),
+            selectedSubjectPart: currentSubjectPart,
+            title,
+        };
+        // console.log(formData);
+        const stringifiedFormData = JSON.stringify(formData);
+        console.log(stringifiedFormData);
     }
 
     useEffect(() => {
         // getting classes
-        axios.get('http://localhost:8000/api/classes')
+        axios.get(import.meta.env.VITE_URL_CLASSES || 'http://localhost:8000/api/classes')
             .then(res => setClasses(res.data))
             .catch(console.error);
 
-        // getting groups
-        /* axios.get('http://localhost:8000/api/groups')
-            .then(res => setGroups(res.data))
-            .catch(console.error); */
-
         // getting subjects
-        axios.get('http://localhost:8000/api/subjects')
+        axios.get(import.meta.env.VITE_URL_SUBJECTS || 'http://localhost:8000/api/subjects')
             .then(res => {
                 setSubjects(res.data);
             })
             .catch(console.error);
-
-        // setting showingSubjects for classes with no groups/ None group
-        hasGroups || setCurrentSubjects(subjects.filter(subject => subject.groups.includes('None')));
     }, [])
 
     return (
@@ -113,45 +167,23 @@ const Homework = () => {
 
                 {/* form to add homework */}
                 <form
-                    className="w-3/4 md:w-2/3 lg:w-1/3 mx-auto my-2  z-0 space-y-5"
-                    onClick={handleFormSubmit}
+                    className="w-3/4 md:w-2/3 lg:w-[47%] mx-auto my-2  z-0 space-y-5"
+                    onSubmit={handleFormSubmit}
                 >
                     {/* all the classes here */}
                     <RadioGroup
+                        radioOptions={classes}
                         idProperty={'name'}
                         labelTextProperty={'name'}
                         valueProperty={'value'}
-                        radioOptions={classes}
                         labelText={'Class'}
                         handleRadioChange={handleClassChange}
                         checkedRadio={currentClass}
                         isRequired
+                        errorMessage={classError}
                     />
 
                     {
-                        /* hasGroups && <SelectField
-                            id={'homework-groups'}
-                            name={'homework-groups'}
-                            nameText={'Groups'}
-                            placeholder={`ex: 7`}
-                            selectPadding={7}
-                            borderFull
-                            borderColor={'border-[#0C46C4A7]'}
-                            borderColorOnFocus={'focus-within:border-[#0C46C4]'}
-                            defaultValue={6}
-                            isRequired
-                            customAtts={{ onChange: handleGroupChange }}
-                        >
-                            {
-                                currentGroups.map((group, index) => <option
-                                    key={index}
-                                    value={group}
-                                >
-                                    {group}
-                                </option>)
-                            }
-                        </SelectField> */
-
                         // showing radio groups instead of select menu
                         hasGroups && <RadioGroup
                             idProperty={'id'}
@@ -161,6 +193,7 @@ const Homework = () => {
                             labelText={'Group'}
                             handleRadioChange={handleGroupChange}
                             checkedRadio={currentGroup}
+                            errorMessage={groupError}
                             isRequired
                         />
                     }
@@ -170,31 +203,38 @@ const Homework = () => {
                         id={'homework-subject'}
                         name={'homework-subject'}
                         nameText={'Subject'}
+                        optionName={currentSubjectShowingName}
                         placeholder={`ex: Physics`}
                         selectPadding={7}
-                        borderFull
                         borderColor={'border-[#0C46C4A7]'}
                         borderColorOnFocus={'focus-within:border-[#0C46C4]'}
-                        defaultValue={'Bangla-1'}
+                        selectedValue={currentSubject}
+                        customAtts={{ disabled: currentSubjects.length === 0 }}
+                        handlerOnSelect={handleSubjectChange}
+                        errorMessage={subjectError}
+                        borderFull
                         isRequired
                     >
                         {
                             currentSubjects.map(subject => {
                                 if (subject.parts > 1) {
                                     let subjectOptions = [];
-                                    for (let i = 0; i < subject.parts; i++) {
+                                    for (let i = 1; i <= subject.parts; i++) {
                                         subjectOptions.push(
-                                            <option
-                                                key={`${subject.name}-${i + 1}`}
-                                                value={`${subject.name}-${i + 1}`}
-                                            >
-                                                {`${subject.name} - Paper ${i + 1}`}
-                                            </option>
+                                            <Option
+                                                key={`${subject.name}-${i}`}
+                                                optionName={`${subject.name} - Paper ${i}`}
+                                                optionValue={`${subject.name}-${i}`}
+                                            />
                                         );
                                     }
                                     return subjectOptions;
                                 } else {
-                                    return <option key={`${subject.name}`} value={`${subject.name}`}>{`${subject.name}`}</option>;
+                                    return <Option
+                                        key={`${subject.name}`}
+                                        optionName={subject.name}
+                                        optionValue={subject.name}
+                                    />
                                 }
                             })
                         }
@@ -203,7 +243,35 @@ const Homework = () => {
 
 
                     {/* type the title of the homework */}
-                    <InputField type={'text'} nameText={'Title'} id={'homework-title'} name={'homework-title'} placeholder={'ex: Physics - Chapter 12'} inputPadding={7} borderFull borderColor={'border-[#0C46C4A7]'} borderColorOnFocus={'focus-within:border-[#0C46C4]'} isRequired />
+                    <InputField
+                        type={'text'}
+                        nameText={'Title'}
+                        id={'homeworkTitle'}
+                        name={'homework-title'}
+                        placeholder={'ex: Physics - Chapter 12'}
+                        inputPadding={7}
+                        borderFull
+                        borderColor={'border-[#0C46C4A7]'}
+                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        isRequired
+                    />
+
+                    {/* textarea field */}
+                    <TextAreaField
+                        nameText={'Homework'}
+                        id={'homeworkText'}
+                        name={'homework-text'}
+                        placeholder={`֍ Solve the following algebraic equations:
+                        ● 2x + 5 = 15
+                        ● 3y - 7 = 16
+֍ Draw a graph for the equation: y = 2x + 3`}
+                        rows={7}
+                        inputPadding={7}
+                        borderFull
+                        borderColor={'border-[#0C46C4A7]'}
+                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        isRequired
+                    />
 
                     {/* caution message here */}
                     <p className="text-xs lg:text-sm mt-9 flex items-center justify-center"><img src={warning} className="w-[18px] lg:w-[20px]" />{message.final_note}</p>

@@ -9,14 +9,15 @@ const RadioGroup = ({
     handleRadioChange,
     checkedRadio,
     isRequired,
+    errorMessage,
 }) => {
     return (
         <div className="flex flex-col items-start gap-3 group transition-all duration-500">
-            <h2
-                className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500"
+            <div
+                className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500 flex justify-between items-center w-full"
             >
-                {labelText}{isRequired && <span className='text-[red]'>*</span>}
-            </h2>
+                <h2>{labelText}{isRequired && <span className='text-[red]'>*</span>}</h2>{errorMessage && <h2 className='text-[red]'>{errorMessage}</h2>}
+            </div>
             <div className='w-full flex justify-center items-start gap-2 flex-nowrap z-0'>
                 {
                     radioOptions.map((option, idx) => <Radio
@@ -43,6 +44,7 @@ RadioGroup.propTypes = {
     handleRadioChange: PropTypes.func,
     checkedRadio: PropTypes.object,
     isRequired: PropTypes.bool,
+    errorMessage: PropTypes.string,
 }
 
 export default RadioGroup;

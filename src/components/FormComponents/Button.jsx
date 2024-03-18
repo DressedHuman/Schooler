@@ -24,7 +24,7 @@ const Button = ({ name, type, nameText, customStyle, paddingY, initialTranslateY
     }
 
     return (
-        <motion.button {...fieldMotion} type={type} name={name} className={`btn border-2 border-[#0C46C4] text-lg md:text-xl text-[#0C46C4] w-56 ${paddingY || 'py-2'} h-auto font-open-sans bg-transparent hover:border-[#0C46C4] hover:text-white transition-all duration-1000 shadow-[inset_0_0_#0C46C400] hover:shadow-[inset_214px_0_#0C46C4FF] hover:rotate-6 ${customStyle}`} >{nameText}</motion.button>
+        <motion.button {...fieldMotion} viewport={{once: true}} type={type} name={name} className={`btn border-2 border-[#0C46C4] text-lg md:text-xl text-[#0C46C4] w-56 ${paddingY || 'py-2'} h-auto font-open-sans bg-transparent hover:border-[#0C46C4] hover:text-white transition-all duration-1000 shadow-[inset_0_0_#0C46C400] hover:shadow-[inset_214px_0_#0C46C4FF] hover:rotate-6 ${customStyle}`} >{nameText}</motion.button>
     );
 };
 

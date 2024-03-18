@@ -1,7 +1,25 @@
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
-const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, marginBottom, inputPadding, borderFull, borderColor, borderColorOnFocus, customAtts, isRequired, errorMessage }) => {
+const TextAreaField = ({
+    name,
+    icon,
+    id,
+    nameText,
+    placeholder,
+    rows,
+    columns,
+    marginTop,
+    marginBottom,
+    inputPadding,
+    borderFull,
+    borderColor,
+    borderColorOnFocus,
+    customAtts,
+    isRequired,
+    errorMessage,
+    children
+}) => {
     const containerStyle = { marginTop, marginBottom };
     const inputStyle = { padding: `${inputPadding}px` }
 
@@ -30,25 +48,46 @@ const InputField = ({ name, type, icon, id, nameText, placeholder, marginTop, ma
             </label>
 
             {/* container for the input field and icon */}
-            <div className={`flex w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}>
+            <div
+                className={`flex w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}
+            >
                 {/* main input field with styles and custom attributes */}
-                <input type={type} name={name} id={id} className="font-open-sans flex-grow focus:outline-none bg-transparent" placeholder={placeholder} style={inputStyle} {...customAtts} required={isRequired} />
+                <textarea
+                    name={name}
+                    id={id}
+                    className="font-open-sans flex-grow focus:outline-none bg-transparent whitespace-pre-wrap"
+                    placeholder={placeholder}
+                    style={inputStyle}
+                    rows={rows}
+                    cols={columns}
+                    required={isRequired}
+                    {...customAtts}
+                >
+                    {children}
+                </textarea>
                 {
                     // icon for the input field on the right side
-                    icon && <img src={icon} className='w-4 select-none' draggable='false' alt={`${name} - icon`} />
+                    icon && <img
+                        src={icon}
+                        className='w-4 select-none'
+                        draggable='false'
+                        alt={`${name} - icon`}
+                    />
                 }
             </div>
         </motion.div>
     );
 };
 
-InputField.propTypes = {
+TextAreaField.propTypes = {
     name: PropTypes.string,
     type: PropTypes.string,
     id: PropTypes.string,
     icon: PropTypes.string,
     nameText: PropTypes.string,
     placeholder: PropTypes.string,
+    rows: PropTypes.number,
+    columns: PropTypes.number,
     marginTop: PropTypes.string,
     marginBottom: PropTypes.string,
     inputPadding: PropTypes.number,
@@ -56,8 +95,9 @@ InputField.propTypes = {
     borderColor: PropTypes.string,
     borderColorOnFocus: PropTypes.string,
     customAtts: PropTypes.object,
-    errorMessage: PropTypes.string,
     isRequired: PropTypes.bool,
+    errorMessage: PropTypes.string,
+    children: PropTypes.node,
 }
 
-export default InputField;
+export default TextAreaField;
