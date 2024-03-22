@@ -15,6 +15,10 @@ import RadioGroup from "../../../components/FormComponents/RadioSelector/RadioGr
 import TextAreaField from "../../../components/FormComponents/TextAreaField";
 import Option from "../../../components/FormComponents/DropDownMenu/Option";
 
+// importing toastify items
+import { Slide, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 const Homework = () => {
     const message = useLoaderData().data;
     const [openModal, setOpenModal] = useState(false);
@@ -37,6 +41,7 @@ const Homework = () => {
     const [classError, setClassError] = useState('');
     const [groupError, setGroupError] = useState('');
     const [subjectError, setSubjectError] = useState('');
+    const [dueDateError, setDueDateError] = useState('');
 
     // --------------------------------------------------------------------------
 
@@ -84,24 +89,36 @@ const Homework = () => {
 
         // accessing form data
         const title = e.target.homeworkTitle.value;
+        const homeworkText = e.target.homeworkText.value;
+        const dueDate = e.target.dueDate.value;
 
         // validating form fields
         if (!currentClass) {
-            return setClassError(`You must select a class`);
+            setClassError(`You must select a class!`);
+            return toast.error(`You must select a class!`, {toastId: 'classError'});
         } else {
             setClassError('');
         }
 
         if (hasGroups && !currentGroup) {
-            return setGroupError('You must select a group!');
+            setGroupError('You must select a group!');
+            return toast.error('You must select a group!', {toastId: 'groupError'});
         } else {
             setGroupError('');
         }
 
         if (!currentSubject) {
-            return setSubjectError('You must select a subject!');
+            setSubjectError('You must select a subject!');
+            return toast.error('You must select a subject!', {toastId: 'subjectError'});
         } else {
             setSubjectError('');
+        }
+
+        if (!dueDate) {
+            setDueDateError('You must select a due date!');
+            return toast.error('You must select a due date!', {toastId: 'dueDateError'});
+        } else {
+            setDueDateError('');
         }
 
         const formData = {
@@ -110,9 +127,13 @@ const Homework = () => {
             selectedSubject: (({ name }) => ({ name }))(currentSubject),
             selectedSubjectPart: currentSubjectPart,
             title,
+            homeworkText,
+            publishedDate: new Date(),
+            dueDate,
         };
         // console.log(formData);
         const stringifiedFormData = JSON.stringify(formData);
+        toast.success('Form submitted successfully!', {toastId: 'formSubmitSuccessful'})
         console.log(stringifiedFormData);
     }
 
@@ -179,8 +200,8 @@ const Homework = () => {
                         labelText={'Class'}
                         handleRadioChange={handleClassChange}
                         checkedRadio={currentClass}
-                        isRequired
                         errorMessage={classError}
+                        isRequired
                     />
 
                     {
@@ -250,9 +271,9 @@ const Homework = () => {
                         name={'homework-title'}
                         placeholder={'ex: Physics - Chapter 12'}
                         inputPadding={7}
-                        borderFull
                         borderColor={'border-[#0C46C4A7]'}
                         borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        borderFull
                         isRequired
                     />
 
@@ -267,9 +288,24 @@ const Homework = () => {
 ֍ Draw a graph for the equation: y = 2x + 3`}
                         rows={7}
                         inputPadding={7}
-                        borderFull
                         borderColor={'border-[#0C46C4A7]'}
                         borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        borderFull
+                        isRequired
+                    />
+
+                    {/* due date for homework */}
+                    <InputField
+                        type={'date'}
+                        nameText={'Due Date'}
+                        id={'dueDate'}
+                        name={'dueDAte'}
+                        placeholder={'ex: 22/03/2024'}
+                        inputPadding={7}
+                        borderColor={'border-[#0C46C4A7]'}
+                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        errorMessage={dueDateError}
+                        borderFull
                         isRequired
                     />
 
@@ -280,6 +316,21 @@ const Homework = () => {
                     <Button type={'submit'} name={'addStudent'} nameText={'Add Homework'} customStyle={'mb-12 mt-3'} paddingY={'py-2'} initialTranslateY={100} />
                 </form>
                 {/* ended form to add homework */}
+
+                {/* toast container */}
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={3500}
+                    hideProgressBar={true}
+                    newestOnTop={false}
+                    theme="dark"
+                    transition={Slide}
+                    rtl={false}
+                    closeOnClick
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </div>
         </div>
     );

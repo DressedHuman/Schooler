@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      'inter' : ['Inter', 'sans-serif'],
-      'open-sans' : ['Open Sans', 'sans-serif'],
+      'inter': ['Inter', 'sans-serif'],
+      'open-sans': ['Open Sans', 'sans-serif'],
     }
   },
   plugins: [require('daisyui')],
