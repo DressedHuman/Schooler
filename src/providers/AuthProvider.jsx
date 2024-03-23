@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { createContext } from "react";
 import PropTypes from 'prop-types';
 import FirstLoading from "../components/Loader/FirstLoading";
-// import logo from '../assets/logo.png';
-import logo from '/logo-20240201=233819.png';
+import logo from '/logo-20240201=233819_resized.png';
 import Loader from "../components/Loader/Loader";
 
 export const AuthContext = createContext();

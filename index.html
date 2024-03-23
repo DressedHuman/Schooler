@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/logo-20240201=233819_resized.png" />
   <title>Schooler | Let's School From Online</title>
   <style>
     * {
@@ -22,7 +24,11 @@
   <div id="cursor-inner"
     class="customCursor w-[0.7vw] h-[0.7vw] bg-white rounded-[50%] fixed mix-blend-difference -translate-x-[50%] -translate-y-[50%] z-[9999] pointer-events-none hidden lg:block"
     style="visibility: hidden;"></div>
+  
+  <!-- root div to render the single page application -->
   <div id="root"></div>
+
+  <!-- scripts -->
   <script type="module" src="/src/main.jsx"></script>
   <script>
     const cursors = document.querySelectorAll('.customCursor');

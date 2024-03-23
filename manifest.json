@@ -1,0 +1,16 @@
+{
+    "name": "Nautara Abiunnessa B.L. High School",
+    "short_name": "Shooler | Let's School from Online",
+    "description": "A web based complete school management system for 'Nautara Abiunnessa B.L. High School' - developed by 'Motiur Rahman Mizan'. Visit: https://linkedin.com/li/dressedhuman to get in touch with Motiur Rahman Mizan.",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/logo-20240201=233819_resized.png",
+            "sizes": "257x257",
+            "type": "image/png"
+        }
+    ]
+}
