@@ -6,11 +6,13 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import axios from "axios";
 import AddAccount from "./pages/Dashboard/AddAccount/AddAccount";
 import Homework from "./pages/Dashboard/Homework/Homework";
+import ErrorPage from "./pages/Shared/ErrorPage";
 
 const routes = createBrowserRouter([
     {
         path: '/',
         element: <Root />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',

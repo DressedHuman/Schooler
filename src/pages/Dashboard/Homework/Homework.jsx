@@ -53,6 +53,7 @@ const Homework = () => {
         const _currentGroups = _class.groups.groups;
         setHasGroups(_hasGroups);
         setCurrentGroups(_currentGroups);
+        setCurrentGroup(null);
 
         // setting subjects for none group only
         setCurrentSubjects(subjects.filter(sub => sub.groups.includes('none')));
@@ -188,9 +189,12 @@ const Homework = () => {
 
                 {/* form to add homework */}
                 <form
-                    className="w-3/4 md:w-2/3 lg:w-[47%] mx-auto my-2  z-0 space-y-5"
+                    className="w-3/4 md:w-2/3 lg:w-[47%] border-t-8 mx-auto my-5 rounded-xl z-0 space-y-5"
                     onSubmit={handleFormSubmit}
                 >
+                    {/* top rounded border */}
+                    <div className="w-full h-30 bg-[#0C46C4] rounded-t-2xl"></div>
+
                     {/* all the classes here */}
                     <RadioGroup
                         radioOptions={classes}
@@ -282,10 +286,10 @@ const Homework = () => {
                         nameText={'Homework'}
                         id={'homeworkText'}
                         name={'homework-text'}
-                        placeholder={`֍ Solve the following algebraic equations:
+                        placeholder={`# Solve the following algebraic equations:
                         ● 2x + 5 = 15
                         ● 3y - 7 = 16
-֍ Draw a graph for the equation: y = 2x + 3`}
+# Draw a graph for the equation: y = 2x + 3`}
                         rows={7}
                         inputPadding={7}
                         borderColor={'border-[#0C46C4A7]'}
