@@ -18,6 +18,7 @@ import Option from "../../../components/FormComponents/DropDownMenu/Option";
 // importing toastify items
 import { Slide, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import CircularTopBottom from "../../../components/shared/CircularTopBottom";
 
 const Homework = () => {
     const message = useLoaderData().data;
@@ -96,28 +97,28 @@ const Homework = () => {
         // validating form fields
         if (!currentClass) {
             setClassError(`You must select a class!`);
-            return toast.error(`You must select a class!`, {toastId: 'classError'});
+            return toast.error(`You must select a class!`, { toastId: 'classError' });
         } else {
             setClassError('');
         }
 
         if (hasGroups && !currentGroup) {
             setGroupError('You must select a group!');
-            return toast.error('You must select a group!', {toastId: 'groupError'});
+            return toast.error('You must select a group!', { toastId: 'groupError' });
         } else {
             setGroupError('');
         }
 
         if (!currentSubject) {
             setSubjectError('You must select a subject!');
-            return toast.error('You must select a subject!', {toastId: 'subjectError'});
+            return toast.error('You must select a subject!', { toastId: 'subjectError' });
         } else {
             setSubjectError('');
         }
 
         if (!dueDate) {
             setDueDateError('You must select a due date!');
-            return toast.error('You must select a due date!', {toastId: 'dueDateError'});
+            return toast.error('You must select a due date!', { toastId: 'dueDateError' });
         } else {
             setDueDateError('');
         }
@@ -134,7 +135,7 @@ const Homework = () => {
         };
         // console.log(formData);
         const stringifiedFormData = JSON.stringify(formData);
-        toast.success('Form submitted successfully!', {toastId: 'formSubmitSuccessful'})
+        toast.success('Form submitted successfully!', { toastId: 'formSubmitSuccessful' })
         console.log(stringifiedFormData);
     }
 
@@ -320,6 +321,28 @@ const Homework = () => {
                     <Button type={'submit'} name={'addStudent'} nameText={'Add Homework'} customStyle={'mb-12 mt-3'} paddingY={'py-2'} initialTranslateY={100} />
                 </form>
                 {/* ended form to add homework */}
+
+
+                {/* circular bottom */}
+                <div className='relative'>
+                    <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[21vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[42vh]'} isTop={false} />
+                    <div className='absolute left-10 right-10 top-10 bottom-2 md:bottom-5 flex flex-col justify-center items-center text-white font-medium'>
+                        <div className="flex flex-col justify-end md:justify-center items-center lg:gap-1 scale-90 lg:scale-100">
+                            <h2 className="text-base md:text-lg lg:text-xl font-normal">Nautara Abiunnessa B.L. High School</h2>
+                            <p>
+                                <span
+                                    className='text-sm md:text-base lg:text-lg font-normal'
+                                >Developed by:
+                                </span>&nbsp;<a
+                                    href='https://facebook.com/dressed.human'
+                                    className='hover:text-[yellow] text-sm md:text-base lg:text-lg font-normal'
+                                >
+                                    Motiur Rahman Mizan
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* toast container */}
                 <ToastContainer

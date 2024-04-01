@@ -7,6 +7,7 @@ import axios from "axios";
 import AddAccount from "./pages/Dashboard/AddAccount/AddAccount";
 import Homework from "./pages/Dashboard/Homework/Homework";
 import ErrorPage from "./pages/Shared/ErrorPage";
+import Attendance from "./pages/Dashboard/Attendance/Attendance";
 
 const routes = createBrowserRouter([
     {
@@ -29,14 +30,18 @@ const routes = createBrowserRouter([
                 element: <Dashboard />
             },
             {
-                path: '/add-account',
-                element: <AddAccount />
+                path: '/attendance',
+                element: <Attendance />,
             },
             {
                 path: '/homework',
                 element: <Homework />,
                 loader: () => axios.get(import.meta.env.VITE_URL_HOMEWORK_DATA || '/dashboard/Homework/homework.json'),
-            }
+            },
+            {
+                path: '/add-account',
+                element: <AddAccount />
+            },
         ]
     }
 ]);
