@@ -1,18 +1,16 @@
-import { useContext } from "react";
-import CircularTopWithLogo from "../../components/shared/CircularTopWithLogo";
-import LogoCircle from "../../components/shared/LogoCircle";
-import { AuthContext } from "../../providers/AuthProvider";
 import Button from "../../components/FormComponents/Button";
 import { Link } from "react-router-dom";
+import CircularTopBottom from "../../components/shared/CircularTopBottom";
 
 const ErrorPage = () => {
-    const { logo } = useContext(AuthContext);
 
     return (
-        <div className="min-h-[100vh] grid grid-cols-1 auto-rows-fr">
-            <CircularTopWithLogo color={'#28C2A0'} height={21} zIndex={9990} isSticky >
-                <LogoCircle logo={logo} width={`w-[135px] md:w-[157px] lg:w-[195px]`} height={`h-[135px] md:h-[157px] lg:h-[195px]`} padding={1} borderWidth={5} borderColor={'#28C2A0'} logoUp logoUpMarginTop={`-mt-[67.5px] md:-mt-[77.5px] lg:-mt-[97.5px]`} />
-            </CircularTopWithLogo>
+        <div id='container' className={`min-h-[100vh] flex flex-col justify-between`}>
+            <div className="h-[125px] w-full bg-[#0C46C4] relative">
+                <h2
+                    className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-3xl font-medium text-white"
+                >Nautara Abiunnessa B.L. High School</h2>
+            </div>
 
             {/* error message */}
             <div className="flex flex-col justify-start items-center gap-7">
@@ -22,6 +20,29 @@ const ErrorPage = () => {
                 >
                     <Button nameText={'Go Home'} />
                 </Link>
+            </div>
+
+
+
+            {/* circular bottom */}
+            <div className='relative mt-12'>
+                <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[14vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[28vh]'} isTop={false} />
+                <div className='absolute left-10 right-10 top-10 bottom-2 md:bottom-5 flex flex-col justify-center items-center text-white font-medium'>
+                    <div className="flex flex-col justify-end md:justify-center items-center lg:gap-1 scale-90 lg:scale-100">
+                        <h2 className="text-base md:text-lg lg:text-xl font-normal">Nautara Abiunnessa B.L. High School</h2>
+                        <p>
+                            <span
+                                className='text-sm md:text-base lg:text-lg font-normal'
+                            >Developed by:
+                            </span>&nbsp;<a
+                                href='https://facebook.com/dressed.human'
+                                className='hover:text-[yellow] text-sm md:text-base lg:text-lg font-normal'
+                            >
+                                Motiur Rahman Mizan
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

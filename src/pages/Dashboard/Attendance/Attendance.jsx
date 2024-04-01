@@ -52,8 +52,8 @@ const Attendance = () => {
             </div>
 
             {/* circular bottom */}
-            <div className='relative'>
-                <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[21vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[42vh]'} isTop={false} />
+            <div className='relative mt-7'>
+                <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[14vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[28vh]'} isTop={false} />
                 <div className='absolute left-10 right-10 top-10 bottom-2 md:bottom-5 flex flex-col justify-center items-center text-white font-medium'>
                     <div className="flex flex-col justify-end md:justify-center items-center lg:gap-1 scale-90 lg:scale-100">
                         <h2 className="text-base md:text-lg lg:text-xl font-normal">Nautara Abiunnessa B.L. High School</h2>
