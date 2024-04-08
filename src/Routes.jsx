@@ -7,7 +7,9 @@ import axios from "axios";
 import AddAccount from "./pages/Dashboard/AddAccount/AddAccount";
 import Homework from "./pages/Dashboard/Homework/Homework";
 import ErrorPage from "./pages/Shared/ErrorPage";
-import Attendance from "./pages/Dashboard/Attendance/Attendance";
+import AttendanceHome from "./pages/Dashboard/Attendance/AttendanceHome";
+import AttendanceRoot from "./pages/Dashboard/Attendance/AttendanceRoot";
+import AttendanceWithClass from "./pages/Dashboard/Attendance/AttendanceWithClass";
 
 const routes = createBrowserRouter([
     {
@@ -31,7 +33,16 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/attendance',
-                element: <Attendance />,
+                element: <AttendanceRoot />,
+                children: [
+                    {
+                        path: '',
+                        element: <AttendanceHome />,
+                    },{
+                        path: ':classId',
+                        element: <AttendanceWithClass />,
+                    }
+                ]
             },
             {
                 path: '/homework',
