@@ -12,7 +12,7 @@ const Home = () => {
 
     return (
         <div id='container' className={`min-h-[100vh] flex flex-col justify-between`}>
-            <CircularTopWithLogo color={'#28C2A0'} height={21} zIndex={9990} isSticky >
+            <CircularTopWithLogo color={'#28C2A0'} height={21} zIndex={9990} >
                 <LogoCircle logo={logo} width={`w-[135px] md:w-[157px] lg:w-[195px]`} height={`h-[135px] md:h-[157px] lg:h-[195px]`} padding={1} borderWidth={5} borderColor={'#28C2A0'} logoUp logoUpMarginTop={`-mt-[67.5px] md:-mt-[77.5px] lg:-mt-[97.5px]`} />
             </CircularTopWithLogo>
             <p className="text-lg md:text-xl lg:text-3xl font-open-sans text-center mt-7 text-[#0C46C4] font-semibold">Who are you?</p>
@@ -31,14 +31,13 @@ const Home = () => {
                 <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[14vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[28vh]'} isTop={false} />
                 <div className='absolute left-10 right-10 top-10 bottom-2 md:bottom-5 flex flex-col justify-center items-center text-white font-medium'>
                     <div className="flex flex-col justify-end md:justify-center items-center lg:gap-1 scale-90 lg:scale-100">
-                        <h2 className="text-base md:text-lg lg:text-xl font-normal">Nautara Abiunnessa B.L. High School</h2>
-                        <p>
-                            <span
-                                className='text-sm md:text-base lg:text-lg font-normal'
-                            >Developed by:
-                            </span>&nbsp;<a
+                        <h2 className="text-base md:text-lg font-normal whitespace-nowrap">Nautara Abiunnessa B.L. High School</h2>
+                        <p
+                            className='text-sm font-normal'
+                        >
+                            <span>Developed by:</span>&nbsp;<a
                                 href='https://facebook.com/dressed.human'
-                                className='hover:text-[yellow] text-sm md:text-base lg:text-lg font-normal'
+                                className='hover:text-[yellow]'
                             >
                                 Motiur Rahman Mizan
                             </a>

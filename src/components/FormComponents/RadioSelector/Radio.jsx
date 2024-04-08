@@ -5,7 +5,7 @@ const Radio = ({ id, labelText, value, bgColor, bgColorOnChecked, textColor, tex
         <input
             type='button'
             id={id}
-            className={`flex-1 h-12 flex justify-center items-center rounded-xl ${bgColor || 'bg-[gray]'} ${textColor || 'text-white'} ${checkedValue === value ? (bgColorOnChecked || 'bg-[green]') : 'bg-[gray]'} ${checkedValue === value && (textColorOnChecked || 'text-white')} z-0 cursor-pointer`}
+            className={`flex-grow w-[91px] md:w-[100px] lg:w-[112px] h-12 flex justify-center items-center rounded-xl ${bgColor || 'bg-[gray]'} ${textColor || 'text-white'} ${checkedValue === value ? (bgColorOnChecked || 'bg-[green]') : 'bg-[gray]'} ${checkedValue === value && (textColorOnChecked || 'text-white')} z-0 cursor-pointer`}
             onClick={() => handlerOnChange(value)}
             value={labelText}
         />

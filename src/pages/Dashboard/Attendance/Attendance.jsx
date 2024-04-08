@@ -34,7 +34,7 @@ const Attendance = () => {
             {/* select class for attendance */}
             {/* <div className="my-12 ml-7 space-y-7"> */}
             <div className="w-full h-full flex flex-col justify-center items-center gap-7 flex-wrap my-12">
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-[green]">Choose class for attendance</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-[green]">Choose Class</h2>
                 <div className="flex justify-center items-center flex-wrap gap-3 md:gap-5 lg:gap-7 mx-2 ">
                     {
                         classes.map(cls => <Link
@@ -52,18 +52,17 @@ const Attendance = () => {
             </div>
 
             {/* circular bottom */}
-            <div className='relative mt-7'>
+            <div className='relative mt-12'>
                 <CircularTopBottom background={'#0C46C4'} containerHeight={'h-[21vw] md:h-[12vw] lg:h-[14vh]'} circleHeight={'h-[42vw] md:h-[24vw] lg:h-[28vh]'} isTop={false} />
                 <div className='absolute left-10 right-10 top-10 bottom-2 md:bottom-5 flex flex-col justify-center items-center text-white font-medium'>
                     <div className="flex flex-col justify-end md:justify-center items-center lg:gap-1 scale-90 lg:scale-100">
-                        <h2 className="text-base md:text-lg lg:text-xl font-normal">Nautara Abiunnessa B.L. High School</h2>
-                        <p>
-                            <span
-                                className='text-sm md:text-base lg:text-lg font-normal'
-                            >Developed by:
-                            </span>&nbsp;<a
+                        <h2 className="text-base md:text-lg font-normal whitespace-nowrap">Nautara Abiunnessa B.L. High School</h2>
+                        <p
+                            className='text-sm font-normal'
+                        >
+                            <span>Developed by:</span>&nbsp;<a
                                 href='https://facebook.com/dressed.human'
-                                className='hover:text-[yellow] text-sm md:text-base lg:text-lg font-normal'
+                                className='hover:text-[yellow]'
                             >
                                 Motiur Rahman Mizan
                             </a>

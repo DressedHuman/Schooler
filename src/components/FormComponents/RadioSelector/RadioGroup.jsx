@@ -18,7 +18,7 @@ const RadioGroup = ({
             >
                 <h2>{labelText}{isRequired && <span className='text-[red]'>*</span>}</h2>{errorMessage && <h2 className='text-[red]'>{errorMessage}</h2>}
             </div>
-            <div className='w-full flex justify-center items-start gap-2 flex-nowrap z-0'>
+            <div className='w-full flex justify-between items-start gap-2 flex-wrap z-0'>
                 {
                     radioOptions.map((option, idx) => <Radio
                         key={idx}
