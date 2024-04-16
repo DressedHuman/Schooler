@@ -7,9 +7,20 @@ const AttendanceRoot = () => {
     return (
         <div id='container' className={`min-h-[100vh] flex flex-col justify-between`}>
             {/* header with rectangular background and a icon with title */}
-            <RectHeader backgroundColor={'bg-[#0C46C4]'} icon={attendanceWhiteLogo} iconWidth={'w-[50px] md:w-[75px]'} iconHeight={'h-[50px] md:h-[75px]'} title={'Attendance'} textColor={'white'} flexPosition={'items-center'} containerPadding={'pl-16 md:pl-[88px] lg:pl-28'} />
+            <RectHeader
+                backgroundColor={'bg-[#0C46C4]'}
+                icon={attendanceWhiteLogo}
+                iconWidth={'w-[50px] md:w-[75px]'}
+                iconHeight={'h-[50px] md:h-[75px]'}
+                title={'Attendance'}
+                textColor={'white'}
+                flexPosition={'items-center'}
+                containerPadding={'pl-16 md:pl-[88px] lg:pl-28'}
+            />
 
-            <Outlet />
+            <div className="flex-1">
+                <Outlet />
+            </div>
 
             {/* circular bottom */}
             <div className='relative mt-12'>
