@@ -9,14 +9,15 @@ const AttendanceWithClass = () => {
     const [attendanceInfo, setAttendanceInfo] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editInfo, setEditInfo] = useState({});
-    const [openModal, setOpenModal] = useState(!false);
+    const [openModal, setOpenModal] = useState(false);
+
 
     const handleCheckboxChange = (id) => {
         const studentId = `student_${id}`;
         if (editInfo[studentId]) {
-            const { [studentId]: studentDefault, ...rest } = editInfo;
+            // eslint-disable-next-line no-unused-vars
+            const { [studentId]: _, ...rest } = editInfo;
             setEditInfo(rest);
-            console.log('edit: ' + !studentDefault)
         } else {
             setEditInfo({
                 ...editInfo,
@@ -25,14 +26,55 @@ const AttendanceWithClass = () => {
         }
     }
 
+    const handleCancelSave = () => {
+        // write code to reset the changes
+        // 
+        // 
+        setOpenModal(false);
+    }
+
+    const handleSave = () => {
+        // write code to effectively save the changes in the server
+        // 
+        // 
+        setEditMode(false);
+        setOpenModal(false);
+        setEditInfo({});
+    }
+
     const handleEditOrSave = () => {
         if (editMode) {
             // write code to save edits
-            if(editInfo.length > 0) console.log(editInfo);
-            // console.log(editInfo);
-            setEditInfo({});
+            if (Object.keys(editInfo).length) {
+                setOpenModal(true);
+                console.log(editInfo);
+
+                // setting the width of the modal attendance state divs for responsive design
+                const elemsInfo = [
+                    {
+                        title: 'prev_state_title',
+                        box: 'prev_state_checkbox',
+                    },
+                    {
+                        title: 'now_state_title',
+                        box: 'now_state_checkbox',
+                    }
+                ]
+
+                elemsInfo.forEach(elemInfo => {
+                    const titleElemWidth = document.getElementById(elemInfo.title).offsetWidth;
+                    const boxElems = document.getElementsByClassName(elemInfo.box);
+                    Array.from(boxElems).forEach(box => {
+                        box.style.width = `${titleElemWidth}px`;
+                    })
+                })
+            } else {
+                setEditMode(false);
+                setOpenModal(false);
+            }
+        } else {
+            setEditMode(true);
         }
-        setEditMode(!editMode)
     }
 
     useEffect(() => {
@@ -45,6 +87,10 @@ const AttendanceWithClass = () => {
                     classInfo.sort((student_1, student_2) => student_1.rollNumber - student_2.rollNumber);
                     setAttendanceInfo(classInfo);
                     // console.log(classInfo)
+
+                    const checkbox_title_width = document.querySelector('#attendance_state_title').offsetWidth;
+                    const checkbox_divs = document.querySelectorAll('.attendance_state_checkbox');
+                    Array.from(checkbox_divs).forEach(checkbox_div => checkbox_div.style.width = `${checkbox_title_width}px`);
                 })
                 .catch(console.error)
         }
@@ -60,6 +106,7 @@ const AttendanceWithClass = () => {
                 </div>
             </div>
 
+            {/* main body of the attendance list */}
             <div className="w-3/4 md:w-2/3 lg:w-[47%] mx-auto pb-[100px] relative">
                 {/* edit or save button */}
                 <button
@@ -86,7 +133,7 @@ const AttendanceWithClass = () => {
                         className="w-full px-2 pt-2 pb-3 mb-3 bg-[#0C46C4BF] flex justify-between items-center gap-7"
                     >
                         <h2 className="text-white font-medium">Student Name</h2>
-                        <h3 className="text-white font-medium">Present</h3>
+                        <h3 id="attendance_state_title" className="text-white font-medium">Present</h3>
                     </div>
 
                     {/* list of the students */}
@@ -97,16 +144,18 @@ const AttendanceWithClass = () => {
                             >
                                 <Link
                                     to={`/student/${student.userId}`}
-                                    className="font-medium text-[black]/90"
+                                    className={`font-medium ${Object.keys(editInfo).includes(`student_${student.userId}`) ? 'text-warning' : 'text-[black]/90'}`}
                                 >
-                                    {student.name} {student.rollNumber}
+                                    {student.rollNumber} {student.name}
                                 </Link>
-                                <Checkbox
-                                    onChange={() => handleCheckboxChange(student.id)}
-                                    defaultChecked={editInfo[`student_${student.id}`] === true ? !student.present : student.present}
-                                    showCross={!false}
-                                    disabled={!editMode}
-                                />
+                                <div className="attendance_state_checkbox flex justify-center items-center">
+                                    <Checkbox
+                                        onChange={() => handleCheckboxChange(student.id)}
+                                        defaultChecked={editInfo[`student_${student.id}`] === true ? !student.present : student.present}
+                                        showCross={!false}
+                                        disabled={!editMode}
+                                    />
+                                </div>
                             </div>
                         </div>)
                     }
@@ -117,17 +166,87 @@ const AttendanceWithClass = () => {
             <div className="w-[75vw] md:w-72 mx-auto flex items-center justify-center font-open-sans">
                 {/* clicking outside the modal message will also close the modal */}
                 {/* div with full window overlay */}
-                <div onClick={() => setOpenModal(false)} className={`fixed flex justify-center items-center z-[100] ${openModal ? 'visible opacity-1' : 'invisible opacity-0'} inset-0 w-full h-full backdrop-blur-sm bg-[black]/75 duration-100`}>
-                    {/* stopped propagation for event bubble for the main modal content */}
+                <div
+                    className={`fixed flex justify-center items-center z-[100] ${openModal ? 'visible opacity-1' : 'invisible opacity-0'} inset-0 w-full h-full backdrop-blur-sm bg-[black]/75 duration-100`}
+                >
                     {/* main modal here */}
                     <div onClick={(e_) => e_.stopPropagation()} className={`absolute w-[87vw] md:w-[500px] lg:w-[750px] bg-white drop-shadow-2xl rounded-lg ${openModal ? 'scale-100 opacity-1 duration-300 translate-y-0' : 'scale-0 -translate-y-20 opacity-0 duration-150'}`}>
                         <div className="p-5 md:p-7 relative">
-                            {/* button for closing the modal */}
-                            <svg onClick={() => setOpenModal(false)} className="w-7 lg:w-10 absolute top-2 right-2 cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z" fill="#000000"></path></g></svg>
-
                             {/* modal message here */}
                             <div className="max-h-[75vh] overflow-auto space-y-3 md:space-y-4 lg:space-y-5">
-                                <p>Save Edits</p>
+                                <p className="text-lg text-black font-medium">Are you sure to save the following changes?</p>
+                                <div>
+                                    {/* header of the list */}
+                                    <div
+                                        className="w-full px-2 pt-2 pb-3 mb-3 bg-[#0C46C4BF] flex justify-between items-center gap-7"
+                                    >
+                                        <h2 className="text-white font-medium">Student Name</h2>
+                                        <div className="flex justify-center items-center gap-3 lg:gap-7">
+                                            <h3 id="prev_state_title" className="text-white font-medium">Prev</h3>
+                                            <h3 id="now_state_title" className="text-white font-medium">Now</h3>
+                                        </div>
+                                    </div>
+
+                                    {/* list of the students whose attendance state have been changed */}
+                                    {
+                                        Object.keys(editInfo).map(student_id => {
+                                            const id = student_id.slice(-2);
+                                            const student = attendanceInfo.find(student => student.id == id);
+
+                                            return <div key={student.id} className="w-full">
+                                                <div
+                                                    className="w-full px-2 py-2 hover:bg-[gray]/35 flex justify-between items-center gap-7"
+                                                >
+                                                    <p
+                                                        className="font-medium text-[black]/90"
+                                                    >
+                                                        {student.rollNumber} {student.name}
+                                                    </p>
+                                                    <div className="flex justify-center items-center gap-3 lg:gap-7">
+                                                        <div
+                                                            className="prev_state_checkbox flex justify-center items-center"
+                                                        >
+                                                            <Checkbox
+                                                                onChange={() => handleCheckboxChange(student.id)}
+                                                                defaultChecked={student.present}
+                                                                showCross={!false}
+                                                                disabled={true}
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className="now_state_checkbox flex justify-center items-center"
+                                                        >
+                                                            <Checkbox
+                                                                onChange={() => handleCheckboxChange(student.id)}
+                                                                defaultChecked={!student.present}
+                                                                showCross={!false}
+                                                                disabled={true}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        })
+                                    }
+                                </div>
+
+                                <div className="flex justify-center items-center gap-5 text-lg mt-7">
+                                    {/* cancel button */}
+                                    <button
+                                        onClick={handleCancelSave}
+                                        className="w-[75px] px-2 py-2 rounded-lg bg-orange-600 text-white  font-medium"
+                                    >
+                                        Cancel
+                                    </button>
+
+                                    {/* save button */}
+                                    <button
+                                        onClick={handleSave}
+                                        className="w-[75px] px-2 py-2 rounded-lg bg-[#0C46C4BF] text-white font-medium"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
