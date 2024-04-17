@@ -88,13 +88,22 @@ const AttendanceWithClass = () => {
                     setAttendanceInfo(classInfo);
                     // console.log(classInfo)
 
-                    const checkbox_title_width = document.querySelector('#attendance_state_title').offsetWidth;
-                    const checkbox_divs = document.querySelectorAll('.attendance_state_checkbox');
-                    Array.from(checkbox_divs).forEach(checkbox_div => checkbox_div.style.width = `${checkbox_title_width}px`);
+                    return data;
                 })
                 .catch(console.error)
         }
     }, [])
+
+    // another useEffect hook for updating the width of each checkbox container with the with of the title
+    useEffect(() => {
+        const adjustWidth = () => {
+            const checkbox_title_width = document.querySelector('#attendance_state_title').offsetWidth;
+            const checkbox_divs = document.querySelectorAll('.attendance_state_checkbox');
+            Array.from(checkbox_divs).forEach(checkbox_div => checkbox_div.style.width = `${checkbox_title_width}px`);
+        }
+
+        adjustWidth();
+    }, [attendanceInfo])
     return (
         <div>
             <div
