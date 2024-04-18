@@ -27,20 +27,37 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
     }
 
     return (
-        <motion.div {...fieldMotion} viewport={{ once: true }} className="flex flex-col items-start group transition-all duration-500" style={containerStyle}>
+        <motion.div
+            {...fieldMotion}
+            viewport={{ once: true }}
+            className="flex flex-col items-start group transition-all duration-500"
+            style={containerStyle}
+        >
+            {/* div containing the full viewport to close the dropdown menu when clicking outside */}
+            <div
+                className={`fixed top-0 bottom-0 left-0 right-0 opacity-0 ${isOpen || 'hidden'}`}
+                onClick={() => setIsOpen(false)}
+            ></div>
+
             {/* label for the input field */}
-            <label className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500 flex justify-between items-center w-full" htmlFor={id}>
+            <label
+                htmlFor={id}
+                className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500 flex justify-between items-center w-full"
+            >
                 <h2>{nameText}{isRequired && <span className='text-[red]'>*</span>}</h2>
                 <h2>{errorMessage && <span className='text-[red]'>{errorMessage}</span>}</h2>
             </label>
 
             {/* container for the input field and icon */}
-            <div className={`relative w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}>
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className={`relative w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}
+            >
                 {/* main input field with styles and custom attributes */}
                 {/* dropdown - btn */}
                 <div
                     onClick={() => {
-                        children.length>0 && setIsOpen(!isOpen);
+                        children.length > 0 && setIsOpen(!isOpen);
                     }}
                     className="mx-auto flex w-full items-center justify-between rounded-xl bg-white px-6 py-2 border"
                     style={selectStyle}
@@ -68,22 +85,15 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
                         {children}
                     </selectContext.Provider>
                 </div>
-                {/* <select
-                    name={name}
-                    id={id}
-                    className="font-open-sans flex-grow focus:outline-none bg-transparent"
-                    style={selectStyle}
-                    {...customAtts}
-                    defaultValue={selectedValue}
-                    required={isRequired}
-                    onChange={handlerOnChange}
-                >
-                    <option disabled value={selectedValue}>-- Choose Subject --</option>
-                    {children}
-    </select> */}
+
                 {
                     // icon for the input field on the right side
-                    icon && <img src={icon} className='w-4 select-none' draggable='false' alt={`${name} - icon`} />
+                    icon && <img
+                        src={icon}
+                        className='w-4 select-none'
+                        alt={`${name} - icon`}
+                        draggable='false'
+                    />
                 }
             </div>
         </motion.div>
