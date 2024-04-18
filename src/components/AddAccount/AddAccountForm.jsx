@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import RadioGroup from "../FormComponents/RadioSelector/RadioGroup";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import Option from "../FormComponents/DropDownMenu/Option";
 
 // form for adding student account
@@ -20,7 +20,7 @@ const AddAccountForm = ({ studentPhotoRef }) => {
     const [currentGroups, setCurrentGroups] = useState([]);
     const [currentGroup, setCurrentGroup] = useState(null);
     const [currentSections, setCurrentSections] = useState([]);
-    const [currentSection, setCurrentSection] = useState({});
+    const [currentSection, setCurrentSection] = useState(null);
     const [currentSectionShowingName, setCurrentSectionShowingName] = useState('');
 
     // error states
@@ -72,7 +72,7 @@ const AddAccountForm = ({ studentPhotoRef }) => {
     const handleFormSubmit = e => {
         e.preventDefault();
         if (allValid) {
-            // validating form fields
+            // validating custom form fields
             if (!currentClass) {
                 setClassError(`You must select a class!`);
                 return toast.error(`You must select a class!`, { toastId: 'classError' });
@@ -98,8 +98,9 @@ const AddAccountForm = ({ studentPhotoRef }) => {
             const studentForm = new FormData(e.target);
             const studentInfo = {
                 name: studentForm.get('name'),
-                class: studentForm.get('class'),
-                section: studentForm.get('section'),
+                class: currentClass,
+                section: currentSection,
+                group: currentGroup,
                 roll: studentForm.get('roll'),
                 session: studentForm.get('session'),
                 email: studentForm.get('email'),
@@ -107,6 +108,7 @@ const AddAccountForm = ({ studentPhotoRef }) => {
                 photo: studentPhotoRef.current.files[0] || null,
             };
             console.log(studentInfo);
+            return toast.success('You\'ve successfully submitted the form!', { toastId: 'success' });
         }
     }
 
@@ -218,6 +220,21 @@ const AddAccountForm = ({ studentPhotoRef }) => {
 
             {/* submit button */}
             <Button type={'submit'} name={'addStudent'} nameText={'Add Student'} customStyle={'mb-12 mt-9'} initialTranslateY={100} />
+
+            {/* toast container */}
+            <ToastContainer
+                position="bottom-left"
+                autoClose={3500}
+                hideProgressBar={true}
+                newestOnTop={false}
+                theme="dark"
+                transition={Slide}
+                rtl={false}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </form>
     );
 };

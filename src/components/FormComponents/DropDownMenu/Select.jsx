@@ -79,7 +79,7 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
                 </div>
                 {/* dropdown - options  */}
                 <div
-                    className={`bg-white border-2 border-[#0C46C4]/75 ${isOpen ? 'block top-[112%] left-5 right-5 opacity-100' : 'hidden -top-4 opacity-0'} absolute mx-auto border rounded-xl overflow-hidden duration-300`}
+                    className={`bg-white border-2 border-[#0C46C4]/75 ${isOpen ? 'block top-[112%] left-5 right-5 opacity-100' : 'hidden -top-4 opacity-0'} absolute mx-auto border rounded-xl overflow-hidden duration-300 z-[573]`}
                 >
                     <selectContext.Provider value={{ handlerOnSelect, setIsOpen }}>
                         {children}
