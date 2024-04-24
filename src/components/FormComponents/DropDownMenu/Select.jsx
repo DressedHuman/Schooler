@@ -7,7 +7,10 @@ export const selectContext = createContext();
 
 const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBottom, selectPadding, borderFull, borderColor, borderColorOnFocus, customAtts, isRequired, children, handlerOnSelect, errorMessage }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const containerStyle = { marginTop, marginBottom };
+    const containerStyle = {
+        marginTop,
+        marginBottom,
+    };
     const selectStyle = { padding: `${selectPadding}px` }
 
     const fieldMotion = {
@@ -42,7 +45,7 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
             {/* label for the input field */}
             <label
                 htmlFor={id}
-                className="font-open-sans text-base md:text-lg lg:text-xl group-focus-within:text-lg group-focus-within:md:text-xl group-focus-within:lg:text-2xl transition-all duration-500 flex justify-between items-center w-full"
+                className={`font-open-sans ${isOpen ? 'text-lg md:text-xl lg:text-2xl' : 'text-base md:text-lg lg:text-xl'} transition-all duration-500 flex justify-between items-center w-full`}
             >
                 <h2>{nameText}{isRequired && <span className='text-[red]'>*</span>}</h2>
                 <h2>{errorMessage && <span className='text-[red]'>{errorMessage}</span>}</h2>
@@ -51,7 +54,7 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
             {/* container for the input field and icon */}
             <div
                 onClick={(e) => e.stopPropagation()}
-                className={`relative w-full gap-3 my-3 ${borderFull ? "border-[2px] focus-within:border-[3px] rounded-xl" : "border-b-[3px]"} ${`${borderColor || 'border-[#B3B3B3]'} ${borderColorOnFocus || 'focus-within:border-[#575757]'}`} transition-all duration-500`}
+                className={`relative w-full gap-3 my-3 ${borderFull ? isOpen ? 'border-[3px] rounded-xl' : 'border-[2px] rounded-xl' : "border-b-[3px]"} ${`${ isOpen ? borderColorOnFocus || 'border-[#575757]' : borderColor || 'border-[#B3B3B3]'}`} transition-all duration-500`}
             >
                 {/* main input field with styles and custom attributes */}
                 {/* dropdown - btn */}
@@ -59,11 +62,11 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
                     onClick={() => {
                         children.length > 0 && setIsOpen(!isOpen);
                     }}
-                    className="mx-auto flex w-full items-center justify-between rounded-xl bg-white px-6 py-2 border"
+                    className={`mx-auto flex w-full items-center justify-between rounded-xl bg-white px-6 py-2 border`}
                     style={selectStyle}
                     {...customAtts}
                 >
-                    <h1 className="font-medium text-gray-600">{optionName || '-- Choose Option --'}</h1>
+                    <h1 className="font-medium text-gray-600 select-none">{optionName || '-- Choose Option --'}</h1>
                     <svg
                         className={`${isOpen ? '-rotate-180' : 'rotate-0'} duration-300`}
                         width={25}
@@ -79,7 +82,7 @@ const SelectField = ({ name, icon, id, nameText, optionName, marginTop, marginBo
                 </div>
                 {/* dropdown - options  */}
                 <div
-                    className={`bg-white border-2 border-[#0C46C4]/75 ${isOpen ? 'block top-[112%] left-5 right-5 opacity-100' : 'hidden -top-4 opacity-0'} absolute mx-auto border rounded-xl overflow-hidden duration-300 z-[573]`}
+                    className={`bg-transparent/15 backdrop-blur-md border-2 border-[#0C46C4]/75 ${isOpen ? 'block top-[112%] left-5 right-5 opacity-100' : 'hidden -top-4 opacity-0'} absolute mx-auto border rounded-xl overflow-hidden duration-300 z-[573]`}
                 >
                     <selectContext.Provider value={{ handlerOnSelect, setIsOpen }}>
                         {children}

@@ -233,7 +233,7 @@ const Homework = () => {
                         placeholder={`ex: Physics`}
                         selectPadding={7}
                         borderColor={'border-[#0C46C4A7]'}
-                        borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                        borderColorOnFocus={'border-[#0C46C4]'}
                         selectedValue={currentSubject}
                         customAtts={{ disabled: currentSubjects.length === 0 }}
                         handlerOnSelect={handleSubjectChange}

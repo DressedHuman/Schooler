@@ -167,9 +167,9 @@ const AddAccountForm = ({ studentPhotoRef }) => {
                 nameText={'Section'}
                 optionName={currentSectionShowingName}
                 placeholder={`ex: Physics`}
-                selectPadding={7}
+                selectPadding={12}
                 borderColor={'border-[#0C46C4A7]'}
-                borderColorOnFocus={'focus-within:border-[#0C46C4]'}
+                borderColorOnFocus={'border-[#0C46C4]'}
                 selectedValue={currentSection}
                 customAtts={{ disabled: currentSections.length === 0 }}
                 handlerOnSelect={handleSectionChange}

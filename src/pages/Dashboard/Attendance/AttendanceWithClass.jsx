@@ -6,22 +6,21 @@ import save from '../../../assets/web-fonts/save.svg';
 
 const AttendanceWithClass = () => {
     const { classId } = useParams();
-    const [attendanceInfo, setAttendanceInfo] = useState([]);
+    const [currentAttendanceInfo, setCurrentAttendanceInfo] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editInfo, setEditInfo] = useState({});
     const [openModal, setOpenModal] = useState(false);
 
 
-    const handleCheckboxChange = (id) => {
-        const studentId = `student_${id}`;
-        if (editInfo[studentId]) {
+    const handleCheckboxChange = (userId) => {
+        if (editInfo[userId]) {
             // eslint-disable-next-line no-unused-vars
-            const { [studentId]: _, ...rest } = editInfo;
+            const { [userId]: _, ...rest } = editInfo;
             setEditInfo(rest);
         } else {
             setEditInfo({
                 ...editInfo,
-                [studentId]: true,
+                [userId]: true,
             });
         }
     }
@@ -33,12 +32,24 @@ const AttendanceWithClass = () => {
         setOpenModal(false);
     }
 
-    const handleSave = () => {
+    const handleSaveOk = () => {
         // write code to effectively save the changes in the server
         // 
         // 
         setEditMode(false);
         setOpenModal(false);
+        handleUpdateAttendanceState();
+    }
+
+    const handleUpdateAttendanceState = () => {
+        // console.log(currentAttendanceInfo);
+        const updatedAttendanceInfo = currentAttendanceInfo.map(student => {
+            if(editInfo[student.userId]){
+                return {...student, present: !student.present}
+            }
+            return student;
+        })
+        setCurrentAttendanceInfo(updatedAttendanceInfo);
         setEditInfo({});
     }
 
@@ -47,7 +58,7 @@ const AttendanceWithClass = () => {
             // write code to save edits
             if (Object.keys(editInfo).length) {
                 setOpenModal(true);
-                console.log(editInfo);
+                // console.log(editInfo);
 
                 // setting the width of the modal attendance state divs for responsive design
                 const elemsInfo = [
@@ -85,7 +96,7 @@ const AttendanceWithClass = () => {
                     const classInfo = data[`class_${classId}`];
                     // sorting the students according to their roll number in ascending order
                     classInfo.sort((student_1, student_2) => student_1.rollNumber - student_2.rollNumber);
-                    setAttendanceInfo(classInfo);
+                    setCurrentAttendanceInfo(classInfo);
                     // console.log(classInfo)
 
                     return data;
@@ -94,7 +105,7 @@ const AttendanceWithClass = () => {
         }
     }, [])
 
-    // another useEffect hook for updating the width of each checkbox container with the with of the title
+    // another useEffect hook for updating the width of each checkbox container with the width of the title
     useEffect(() => {
         const adjustWidth = () => {
             const checkbox_title_width = document.querySelector('#attendance_state_title').offsetWidth;
@@ -103,7 +114,9 @@ const AttendanceWithClass = () => {
         }
 
         adjustWidth();
-    }, [attendanceInfo])
+    }, [currentAttendanceInfo])
+
+    
     return (
         <div>
             <div
@@ -147,20 +160,20 @@ const AttendanceWithClass = () => {
 
                     {/* list of the students */}
                     {
-                        attendanceInfo.map(student => <div key={student.id} className="w-full">
+                        currentAttendanceInfo.map(student => <div key={student.id} className="w-full">
                             <div
                                 className="w-full px-2 py-2 hover:bg-[gray]/35 flex justify-between items-center gap-7"
                             >
                                 <Link
                                     to={`/student/${student.userId}`}
-                                    className={`font-medium ${Object.keys(editInfo).includes(`student_${student.userId}`) ? 'text-warning' : 'text-[black]/90'}`}
+                                    className={`font-medium ${editInfo[student.userId] ? 'text-error' : 'text-[black]/90'}`}
                                 >
                                     {student.rollNumber} {student.name}
                                 </Link>
                                 <div className="attendance_state_checkbox flex justify-center items-center">
                                     <Checkbox
-                                        onChange={() => handleCheckboxChange(student.id)}
-                                        defaultChecked={editInfo[`student_${student.id}`] === true ? !student.present : student.present}
+                                        onChange={() => handleCheckboxChange(student.userId)}
+                                        defaultChecked={editInfo[student.userId] ? !student.present : student.present}
                                         showCross={!false}
                                         disabled={!editMode}
                                     />
@@ -198,11 +211,10 @@ const AttendanceWithClass = () => {
 
                                     {/* list of the students whose attendance state have been changed */}
                                     {
-                                        Object.keys(editInfo).map(student_id => {
-                                            const id = student_id.slice(-2);
-                                            const student = attendanceInfo.find(student => student.id == id);
+                                        Object.keys(editInfo).map(userId => {
+                                            const student = currentAttendanceInfo.find(student => student.userId == userId);
 
-                                            return <div key={student.id} className="w-full">
+                                            return <div key={student.userId} className="w-full">
                                                 <div
                                                     className="w-full px-2 py-2 hover:bg-[gray]/35 flex justify-between items-center gap-7"
                                                 >
@@ -245,15 +257,15 @@ const AttendanceWithClass = () => {
                                         onClick={handleCancelSave}
                                         className="w-[75px] px-2 py-2 rounded-lg bg-orange-600 text-white  font-medium"
                                     >
-                                        Cancel
+                                        No
                                     </button>
 
-                                    {/* save button */}
+                                    {/* okay button */}
                                     <button
-                                        onClick={handleSave}
+                                        onClick={handleSaveOk}
                                         className="w-[75px] px-2 py-2 rounded-lg bg-[#0C46C4BF] text-white font-medium"
                                     >
-                                        Save
+                                        Yes
                                     </button>
                                 </div>
                             </div>
